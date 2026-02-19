@@ -6,8 +6,26 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        type:
+          preferred_json_dd_type: jsonb
+          descriptor:
+            sql: TRACE
   flyway:
     enabled: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
 
 jwt:
   secret: test_jwt_secret_64_chars_base64_encoded_value_for_development_only_xyz
