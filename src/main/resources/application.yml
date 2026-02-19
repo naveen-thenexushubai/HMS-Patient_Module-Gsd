@@ -50,6 +50,10 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000  # 1 hour in milliseconds
 
+# Encryption Configuration
+encryption:
+  key: ${ENCRYPTION_KEY}
+
 logging:
   level:
     root: INFO
