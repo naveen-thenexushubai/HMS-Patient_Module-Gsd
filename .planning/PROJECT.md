@@ -68,7 +68,7 @@ Centralized, secure, and efficient patient information management that serves as
 
 ## Constraints
 
-- **Tech Stack**: Spring Boot 3.2.x with Java 17 (backend), React 18.x (frontend), PostgreSQL 15+ (database) — chosen for enterprise requirements
+- **Tech Stack**: Spring Boot 3.4.5+ with Java 17 (backend), React 18.x (frontend), PostgreSQL 15+ (database) — chosen for enterprise requirements (upgraded from 3.2.x due to CVE-2025-22235)
 - **Performance**: Search results within 2 seconds for 10,000 records, registration within 3 seconds — user experience requirement
 - **Security**: HIPAA compliance mandatory, all patient data is PHI — legal requirement
 - **Scalability**: Must support 50,000 patients and 100 concurrent users — operational requirement
@@ -81,6 +81,8 @@ Centralized, secure, and efficient patient information management that serves as
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Spring Boot + React + PostgreSQL stack | Enterprise-grade, well-supported, team experience | — Pending |
+| Spring Boot 3.4.5+ instead of 3.2.x | CVE-2025-22235 security vulnerability in 3.2.x | — Pending |
+| Docker for PostgreSQL deployment | Containerized database for easier deployment and environment consistency | — Pending |
 | Microservices architecture | Modular system with 40+ modules, need independent deployment | — Pending |
 | Soft delete (status-based) instead of hard delete | HIPAA audit requirements, maintain historical data | — Pending |
 | Patient ID format: P{year}{sequence} | Easy to identify year, supports unlimited growth | — Pending |
@@ -88,4 +90,4 @@ Centralized, secure, and efficient patient information management that serves as
 | No authentication in this module | Separation of concerns, reusable auth across modules | — Pending |
 
 ---
-*Last updated: 2026-02-19 after initialization*
+*Last updated: 2026-02-19 after roadmap creation (added Docker decision, upgraded Spring Boot constraint)*

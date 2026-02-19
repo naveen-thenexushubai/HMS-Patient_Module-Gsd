@@ -156,20 +156,81 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 through SEC-09 | Phase 0 | Pending |
-| REG-01 through REG-12 | Phase 1 | Pending |
-| SRCH-01 through SRCH-10 | Phase 1 | Pending |
-| PROF-01 through PROF-09 | Phase 1 | Pending |
-| UPD-01 through UPD-10 | Phase 2 | Pending |
-| STAT-01 through STAT-08 | Phase 2 | Pending |
-| INS-01 through INS-05 | Phase 2 | Pending |
-| EMR-01 through EMR-04 | Phase 2 | Pending |
+| SEC-01 | Phase 0 | Pending |
+| SEC-02 | Phase 0 | Pending |
+| SEC-03 | Phase 0 | Pending |
+| SEC-04 | Phase 0 | Pending |
+| SEC-05 | Phase 0 | Pending |
+| SEC-06 | Phase 0 | Pending |
+| SEC-07 | Phase 0 | Pending |
+| SEC-08 | Phase 0 | Pending |
+| SEC-09 | Phase 0 | Pending |
+| REG-01 | Phase 1 | Pending |
+| REG-02 | Phase 1 | Pending |
+| REG-03 | Phase 1 | Pending |
+| REG-04 | Phase 1 | Pending |
+| REG-05 | Phase 1 | Pending |
+| REG-06 | Phase 1 | Pending |
+| REG-07 | Phase 1 | Pending |
+| REG-08 | Phase 1 | Pending |
+| REG-09 | Phase 1 | Pending |
+| REG-10 | Phase 1 | Pending |
+| REG-11 | Phase 1 | Pending |
+| REG-12 | Phase 1 | Pending |
+| SRCH-01 | Phase 1 | Pending |
+| SRCH-02 | Phase 1 | Pending |
+| SRCH-03 | Phase 1 | Pending |
+| SRCH-04 | Phase 1 | Pending |
+| SRCH-05 | Phase 1 | Pending |
+| SRCH-06 | Phase 1 | Pending |
+| SRCH-07 | Phase 1 | Pending |
+| SRCH-08 | Phase 1 | Pending |
+| SRCH-09 | Phase 1 | Pending |
+| SRCH-10 | Phase 1 | Pending |
+| PROF-01 | Phase 1 | Pending |
+| PROF-02 | Phase 1 | Pending |
+| PROF-03 | Phase 1 | Pending |
+| PROF-04 | Phase 1 | Pending |
+| PROF-05 | Phase 1 | Pending |
+| PROF-06 | Phase 1 | Pending |
+| PROF-07 | Phase 1 | Pending |
+| PROF-08 | Phase 1 | Pending |
+| PROF-09 | Phase 1 | Pending |
+| UPD-01 | Phase 2 | Pending |
+| UPD-02 | Phase 2 | Pending |
+| UPD-03 | Phase 2 | Pending |
+| UPD-04 | Phase 2 | Pending |
+| UPD-05 | Phase 2 | Pending |
+| UPD-06 | Phase 2 | Pending |
+| UPD-07 | Phase 2 | Pending |
+| UPD-08 | Phase 2 | Pending |
+| UPD-09 | Phase 2 | Pending |
+| UPD-10 | Phase 2 | Pending |
+| STAT-01 | Phase 2 | Pending |
+| STAT-02 | Phase 2 | Pending |
+| STAT-03 | Phase 2 | Pending |
+| STAT-04 | Phase 2 | Pending |
+| STAT-05 | Phase 2 | Pending |
+| STAT-06 | Phase 2 | Pending |
+| STAT-07 | Phase 2 | Pending |
+| STAT-08 | Phase 2 | Pending |
+| INS-01 | Phase 2 | Pending |
+| INS-02 | Phase 2 | Pending |
+| INS-03 | Phase 2 | Pending |
+| INS-04 | Phase 2 | Pending |
+| INS-05 | Phase 2 | Pending |
+| EMR-01 | Phase 2 | Pending |
+| EMR-02 | Phase 2 | Pending |
+| EMR-03 | Phase 2 | Pending |
+| EMR-04 | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 50 total
-- Mapped to phases: 0 (will be updated by roadmapper)
-- Unmapped: 50 ⚠️
+- Mapped to phases: 50
+- Unmapped: 0
+
+**Note:** Phases 3 and 4 deliver v2 requirements (OPS-01 through OPS-04, ADV-01 through ADV-05) brought forward based on operational and competitive value identified during research.
 
 ---
 *Requirements defined: 2026-02-19*
-*Last updated: 2026-02-19 after initial definition with research findings*
+*Last updated: 2026-02-19 after roadmap creation with complete phase mappings*
