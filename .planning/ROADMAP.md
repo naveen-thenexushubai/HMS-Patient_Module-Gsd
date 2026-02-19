@@ -12,7 +12,7 @@ This roadmap delivers a HIPAA-compliant patient management system serving as the
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 0: Security & Compliance Foundation** - HIPAA infrastructure and audit logging before any patient data
+- [▶] **Phase 0: Security & Compliance Foundation** - HIPAA infrastructure and audit logging before any patient data (1/5 complete)
 - [ ] **Phase 1: Patient Registration & Search** - Core demographic registration with duplicate detection and search
 - [ ] **Phase 2: Patient Updates & Status Management** - Profile updates, status changes, insurance, emergency contacts
 - [ ] **Phase 3: Operational Enhancements** - Quick registration, photo capture, data quality dashboard
@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 00-01-PLAN.md — Spring Boot 3.4.5+ project foundation with HIPAA Security Risk Assessment
+- [x] 00-01-PLAN.md — Spring Boot 3.4.5+ project foundation with HIPAA Security Risk Assessment (✓ 2/2 tasks, 7 min)
 - [ ] 00-02-PLAN.md — JWT authentication with role-based access control and field-level encryption
 - [ ] 00-03-PLAN.md — PostgreSQL with pgAudit extension and audit logging infrastructure
 - [ ] 00-04-PLAN.md — Object-level authorization with PermissionEvaluator and TLS 1.3 configuration
