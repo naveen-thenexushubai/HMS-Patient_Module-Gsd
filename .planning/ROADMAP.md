@@ -50,10 +50,14 @@ Plans:
   4. Staff can filter patient list by status (Active/Inactive), gender, and blood group with paginated results (20 per page)
   5. Staff can view complete patient profile including demographics, emergency contacts, medical info, and registration audit trail
   6. Edit Patient button appears only for Receptionist/Admin users (hidden from Doctor/Nurse)
-**Plans**: TBD
+**Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 01-01: TBD during planning
+- [ ] 01-01-PLAN.md — Database schema with event-sourced Patient entity, custom P2026XXX ID generator, and normalized emergency contacts/medical history
+- [ ] 01-02-PLAN.md — Patient registration API with multi-field fuzzy duplicate detection (Levenshtein + Soundex) and phone/email validation
+- [ ] 01-03-PLAN.md — Hibernate Search with Lucene backend for full-text patient search with fuzzy matching and Slice-based pagination
+- [ ] 01-04-PLAN.md — Patient profile view with refined PatientPermissionEvaluator (role-based edit permissions) and related data repositories
+- [ ] 01-05-PLAN.md — RFC 7807 Problem Details error handling and Phase 1 verification tests (all 6 success criteria)
 
 ### Phase 2: Patient Updates & Status Management
 **Goal**: Staff can update patient information, manage patient status (active/inactive), and maintain insurance and emergency contact records with full audit trail
@@ -108,7 +112,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
-| 1. Patient Registration & Search | 0/? | Not started | - |
+| 1. Patient Registration & Search | 0/5 | Ready for execution | - |
 | 2. Patient Updates & Status Management | 0/? | Not started | - |
 | 3. Operational Enhancements | 0/? | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |
