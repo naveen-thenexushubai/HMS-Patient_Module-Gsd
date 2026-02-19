@@ -36,16 +36,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Patient Search & Discovery
 
-- [ ] **SRCH-01**: Staff can search patients by multiple criteria (Patient ID, first name, last name, phone number, email)
-- [ ] **SRCH-02**: System displays search results in real-time as user types or on Enter key press
-- [ ] **SRCH-03**: System returns search results within 2 seconds for up to 10,000 patient records
-- [ ] **SRCH-04**: System implements fuzzy matching on patient names to handle spelling variations
-- [ ] **SRCH-05**: Staff can filter patient list by status (All, Active, Inactive)
-- [ ] **SRCH-06**: Staff can filter patient list by gender (All, Male, Female, Other)
-- [ ] **SRCH-07**: Staff can filter patient list by blood group
-- [ ] **SRCH-08**: System displays "No patients found" message when no matches exist
-- [ ] **SRCH-09**: System paginates patient list with 20 patients per page using Slice-based pagination
-- [ ] **SRCH-10**: System displays patient summary (Patient ID, full name, age, gender, phone, status) in list view
+- [x] **SRCH-01**: Staff can search patients by multiple criteria (Patient ID, first name, last name, phone number, email)
+- [x] **SRCH-02**: System displays search results in real-time as user types or on Enter key press
+- [x] **SRCH-03**: System returns search results within 2 seconds for up to 10,000 patient records
+- [x] **SRCH-04**: System implements fuzzy matching on patient names to handle spelling variations
+- [x] **SRCH-05**: Staff can filter patient list by status (All, Active, Inactive)
+- [x] **SRCH-06**: Staff can filter patient list by gender (All, Male, Female, Other)
+- [x] **SRCH-07**: Staff can filter patient list by blood group
+- [x] **SRCH-08**: System displays "No patients found" message when no matches exist
+- [x] **SRCH-09**: System paginates patient list with 20 patients per page using Slice-based pagination
+- [x] **SRCH-10**: System displays patient summary (Patient ID, full name, age, gender, phone, status) in list view
 
 ### Patient Profile Management
 
@@ -177,16 +177,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REG-10 | Phase 1 | Complete |
 | REG-11 | Phase 1 | Complete |
 | REG-12 | Phase 1 | Complete |
-| SRCH-01 | Phase 1 | Pending |
-| SRCH-02 | Phase 1 | Pending |
-| SRCH-03 | Phase 1 | Pending |
-| SRCH-04 | Phase 1 | Pending |
-| SRCH-05 | Phase 1 | Pending |
-| SRCH-06 | Phase 1 | Pending |
-| SRCH-07 | Phase 1 | Pending |
-| SRCH-08 | Phase 1 | Pending |
-| SRCH-09 | Phase 1 | Pending |
-| SRCH-10 | Phase 1 | Pending |
+| SRCH-01 | Phase 1 | Complete |
+| SRCH-02 | Phase 1 | Complete |
+| SRCH-03 | Phase 1 | Complete |
+| SRCH-04 | Phase 1 | Complete |
+| SRCH-05 | Phase 1 | Complete |
+| SRCH-06 | Phase 1 | Complete |
+| SRCH-07 | Phase 1 | Complete |
+| SRCH-08 | Phase 1 | Complete |
+| SRCH-09 | Phase 1 | Complete |
+| SRCH-10 | Phase 1 | Complete |
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
 | PROF-03 | Phase 1 | Complete |
