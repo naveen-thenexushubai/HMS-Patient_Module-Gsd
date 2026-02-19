@@ -122,6 +122,13 @@
             <version>1.15.0</version>
         </dependency>
 
+        <!-- Apache Commons Codec for Soundex phonetic matching -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
