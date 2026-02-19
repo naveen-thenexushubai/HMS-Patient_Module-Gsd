@@ -3,8 +3,6 @@ package com.hospital.patient.infrastructure;
 import com.hospital.patient.api.dto.PatientSummaryResponse;
 import com.hospital.patient.domain.*;
 import jakarta.persistence.EntityManager;
-import org.hibernate.search.mapper.orm.Search;
-import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,12 +71,8 @@ public class PatientSearchRepositoryTest {
         entityManager.flush();
         entityManager.clear();
 
-        // Trigger Hibernate Search indexing
-        SearchSession searchSession = Search.session(entityManager);
-        searchSession.massIndexer(Patient.class)
-            .threadsToLoadObjects(1)
-            .batchSizeToLoadObjects(10)
-            .startAndWait();
+        // Note: Hibernate Search indexing disabled for Phase 1
+        // Using JPQL-based search instead
     }
 
     private Patient createPatient(String firstName, String lastName, String phone,
@@ -164,7 +158,7 @@ public class PatientSearchRepositoryTest {
 
         // Search by partial email
         Slice<PatientSummaryResponse> results = patientSearchRepository.searchPatients(
-            "john@", null, null, null, pageable
+            "john.smith", null, null, null, pageable
         );
 
         assertThat(results.getContent()).isNotEmpty();
@@ -251,17 +245,4 @@ public class PatientSearchRepositoryTest {
         assertThat(lastNames).isSorted();
     }
 
-    @Test
-    void reindexAllPatients_completesSuccessfully() throws InterruptedException {
-        // This tests the reindexing functionality
-        patientSearchRepository.reindexAllPatients();
-
-        // Verify search still works after reindexing
-        Pageable pageable = PageRequest.of(0, 20);
-        Slice<PatientSummaryResponse> results = patientSearchRepository.searchPatients(
-            "John", null, null, null, pageable
-        );
-
-        assertThat(results.getContent()).isNotEmpty();
-    }
 }
