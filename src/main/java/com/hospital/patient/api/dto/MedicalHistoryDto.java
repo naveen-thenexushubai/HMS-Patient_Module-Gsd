@@ -1,18 +1,17 @@
 package com.hospital.patient.api.dto;
 
+import com.hospital.patient.domain.BloodGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DuplicateWarningResponse {
-    private List<DuplicateMatchDto> matches;
-    private boolean requiresOverride;
-    private String message;
+public class MedicalHistoryDto {
+    private BloodGroup bloodGroup;
+    private String allergies;
+    private String chronicConditions;
 }

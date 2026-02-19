@@ -18,7 +18,13 @@ spring:
           descriptor:
             sql: TRACE
         search:
-          enabled: false
+          backend:
+            type: lucene
+            directory:
+              root: ${java.io.tmpdir}/lucene-test/indexes
+          automatic_indexing:
+            synchronization:
+              strategy: sync
   flyway:
     enabled: true
 
