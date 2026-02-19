@@ -2,6 +2,7 @@ package com.hospital;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * Main application entry point for Hospital Management System.
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * - Data at rest and in transit encryption
  */
 @SpringBootApplication
+@EnableJpaAuditing
 public class HospitalApplication {
 
     public static void main(String[] args) {

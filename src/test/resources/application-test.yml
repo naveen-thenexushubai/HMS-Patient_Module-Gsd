@@ -17,6 +17,8 @@ spring:
           preferred_json_dd_type: jsonb
           descriptor:
             sql: TRACE
+        search:
+          enabled: false
   flyway:
     enabled: true
 
