@@ -1,11 +1,22 @@
 server:
   port: 8443
   ssl:
-    enabled: ${SSL_ENABLED:false}
-    key-store: ${SSL_KEYSTORE_PATH}
+    enabled: true
+    protocol: TLS
+    enabled-protocols: TLSv1.3,TLSv1.2  # Prefer TLS 1.3, fallback to 1.2
+    key-store: ${SSL_KEYSTORE_PATH:/etc/hospital/keystore.p12}
     key-store-password: ${SSL_KEYSTORE_PASSWORD}
     key-store-type: PKCS12
-    key-alias: ${SSL_KEY_ALIAS:hospital}
+    key-alias: hospital-api
+    # Strong cipher suites for TLS 1.3 and 1.2
+    ciphers: >
+      TLS_AES_256_GCM_SHA384,
+      TLS_AES_128_GCM_SHA256,
+      TLS_CHACHA20_POLY1305_SHA256,
+      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+  http2:
+    enabled: true
   shutdown: graceful
 
 spring:
@@ -18,6 +29,9 @@ spring:
   datasource:
     hikari:
       maximum-pool-size: 20
+
+  security:
+    require-ssl: true
 
 logging:
   level:
@@ -36,4 +50,4 @@ management:
         include: health,info
   endpoint:
     health:
-      show-details: never
+      show-details: when-authorized  # Don't leak internal details to anonymous users
