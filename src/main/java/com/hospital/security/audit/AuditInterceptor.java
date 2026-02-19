@@ -137,8 +137,17 @@ public class AuditInterceptor {
      */
     private Map<String, Object> buildDetails(JoinPoint joinPoint) {
         Map<String, Object> details = new HashMap<>();
-        details.put("method", joinPoint.getSignature().getName());
-        details.put("class", joinPoint.getTarget().getClass().getSimpleName());
+        try {
+            if (joinPoint != null && joinPoint.getSignature() != null) {
+                details.put("method", joinPoint.getSignature().getName());
+            }
+            if (joinPoint != null && joinPoint.getTarget() != null) {
+                details.put("class", joinPoint.getTarget().getClass().getSimpleName());
+            }
+        } catch (Exception e) {
+            log.warn("Error building audit details: {}", e.getMessage());
+        }
+        // Always return non-null map (empty if errors)
         return details;
     }
 }
