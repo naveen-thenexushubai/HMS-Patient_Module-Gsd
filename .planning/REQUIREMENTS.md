@@ -21,18 +21,18 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Patient Registration
 
-- [ ] **REG-01**: Receptionist can register new patient with mandatory fields (first name, last name, date of birth, gender, phone number)
-- [ ] **REG-02**: Receptionist can register new patient with optional fields (email, address, city, state, zip, emergency contact, blood group, allergies, chronic conditions)
-- [ ] **REG-03**: System automatically calculates and displays patient age from date of birth
+- [x] **REG-01**: Receptionist can register new patient with mandatory fields (first name, last name, date of birth, gender, phone number)
+- [x] **REG-02**: Receptionist can register new patient with optional fields (email, address, city, state, zip, emergency contact, blood group, allergies, chronic conditions)
+- [x] **REG-03**: System automatically calculates and displays patient age from date of birth
 - [ ] **REG-04**: System validates phone number format (+1-XXX-XXX-XXXX or (XXX) XXX-XXXX or XXX-XXX-XXXX)
 - [ ] **REG-05**: System validates email address format
-- [ ] **REG-06**: System generates unique Patient ID in format "P" + year + sequential number (e.g., P2026001)
-- [ ] **REG-07**: System sets patient status to "ACTIVE" by default on successful registration
+- [x] **REG-06**: System generates unique Patient ID in format "P" + year + sequential number (e.g., P2026001)
+- [x] **REG-07**: System sets patient status to "ACTIVE" by default on successful registration
 - [ ] **REG-08**: System displays specific validation error messages for each invalid field
-- [ ] **REG-09**: System records registration timestamp and user who registered the patient
+- [x] **REG-09**: System records registration timestamp and user who registered the patient
 - [ ] **REG-10**: System implements duplicate detection with fuzzy matching on name, DOB, phone before registration
 - [ ] **REG-11**: System warns receptionist about potential duplicates but allows registration to proceed
-- [ ] **REG-12**: System requires photo ID verification (scan or upload) during registration
+- [x] **REG-12**: System requires photo ID verification (scan or upload) during registration
 
 ### Patient Search & Discovery
 
@@ -53,8 +53,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **PROF-02**: Staff can view patient emergency contact information (name, phone, relationship)
 - [ ] **PROF-03**: Staff can view patient medical information (blood group, known allergies, chronic conditions)
 - [ ] **PROF-04**: System displays patient status with color coding (green=active, red=inactive)
-- [ ] **PROF-05**: System displays patient registration date and registered-by user
-- [ ] **PROF-06**: System displays patient last-updated date and updated-by user
+- [x] **PROF-05**: System displays patient registration date and registered-by user
+- [x] **PROF-06**: System displays patient last-updated date and updated-by user
 - [ ] **PROF-07**: System shows "Edit Patient" button only to users with edit permissions (Receptionist, Admin)
 - [ ] **PROF-08**: System hides "Edit Patient" button from read-only users (Doctor, Nurse)
 - [ ] **PROF-09**: Staff can navigate from patient profile back to patient list
@@ -165,18 +165,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEC-07 | Phase 0 | Complete |
 | SEC-08 | Phase 0 | Complete |
 | SEC-09 | Phase 0 | Complete |
-| REG-01 | Phase 1 | Pending |
-| REG-02 | Phase 1 | Pending |
-| REG-03 | Phase 1 | Pending |
+| REG-01 | Phase 1 | Complete |
+| REG-02 | Phase 1 | Complete |
+| REG-03 | Phase 1 | Complete |
 | REG-04 | Phase 1 | Pending |
 | REG-05 | Phase 1 | Pending |
-| REG-06 | Phase 1 | Pending |
-| REG-07 | Phase 1 | Pending |
+| REG-06 | Phase 1 | Complete |
+| REG-07 | Phase 1 | Complete |
 | REG-08 | Phase 1 | Pending |
-| REG-09 | Phase 1 | Pending |
+| REG-09 | Phase 1 | Complete |
 | REG-10 | Phase 1 | Pending |
 | REG-11 | Phase 1 | Pending |
-| REG-12 | Phase 1 | Pending |
+| REG-12 | Phase 1 | Complete |
 | SRCH-01 | Phase 1 | Pending |
 | SRCH-02 | Phase 1 | Pending |
 | SRCH-03 | Phase 1 | Pending |
@@ -191,8 +191,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-02 | Phase 1 | Pending |
 | PROF-03 | Phase 1 | Pending |
 | PROF-04 | Phase 1 | Pending |
-| PROF-05 | Phase 1 | Pending |
-| PROF-06 | Phase 1 | Pending |
+| PROF-05 | Phase 1 | Complete |
+| PROF-06 | Phase 1 | Complete |
 | PROF-07 | Phase 1 | Pending |
 | PROF-08 | Phase 1 | Pending |
 | PROF-09 | Phase 1 | Pending |
