@@ -11,7 +11,7 @@ spring:
     name: hospital-management
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:hospital_db}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5435}/${DB_NAME:hospital_db}
     username: ${DB_USERNAME:hospital_app}
     password: ${DB_PASSWORD:changeme}
     driver-class-name: org.postgresql.Driver
@@ -35,10 +35,20 @@ spring:
         order_inserts: true
         order_updates: true
 
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
   security:
     user:
       name: ${ADMIN_USERNAME:admin}
       password: ${ADMIN_PASSWORD:changeme}
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000  # 1 hour in milliseconds
 
 logging:
   level:
