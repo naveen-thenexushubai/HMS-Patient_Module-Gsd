@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/hospital_db
+    username: hospital_app
+    password: dev_password_change_in_prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+jwt:
+  secret: test_jwt_secret_64_chars_base64_encoded_value_for_development_only_xyz
+  expiration: 3600000
+
+encryption:
+  key: MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=

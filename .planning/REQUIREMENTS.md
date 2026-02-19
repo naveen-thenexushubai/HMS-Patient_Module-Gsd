@@ -13,8 +13,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SEC-02**: System implements audit logging to append-only storage with 6-year retention for all PHI access
 - [ ] **SEC-03**: System encrypts patient data at rest using PostgreSQL encryption or disk-level encryption
 - [ ] **SEC-04**: System encrypts patient data in transit using TLS 1.3 for all API communications
-- [ ] **SEC-05**: System implements field-level encryption for sensitive PHI (SSN, insurance data) using Spring Crypto
-- [ ] **SEC-06**: System validates JWT tokens and enforces role-based access control on all API endpoints
+- [x] **SEC-05**: System implements field-level encryption for sensitive PHI (SSN, insurance data) using Spring Crypto
+- [x] **SEC-06**: System validates JWT tokens and enforces role-based access control on all API endpoints
 - [ ] **SEC-07**: System implements object-level authorization checking "can this user access THIS patient" on every data access
 - [x] **SEC-08**: System stores secrets in environment variables or secrets manager (no hardcoded credentials)
 - [ ] **SEC-09**: System logs all patient data access with user ID, timestamp, action, resource, and device/IP address
@@ -160,8 +160,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEC-02 | Phase 0 | Pending |
 | SEC-03 | Phase 0 | Pending |
 | SEC-04 | Phase 0 | Pending |
-| SEC-05 | Phase 0 | Pending |
-| SEC-06 | Phase 0 | Pending |
+| SEC-05 | Phase 0 | Complete |
+| SEC-06 | Phase 0 | Complete |
 | SEC-07 | Phase 0 | Pending |
 | SEC-08 | Phase 0 | Complete |
 | SEC-09 | Phase 0 | Pending |
