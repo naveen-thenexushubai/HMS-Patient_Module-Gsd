@@ -30,10 +30,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Patient data is encrypted at rest (PostgreSQL encryption) and in transit (TLS 1.3)
   4. All patient data access is logged to append-only storage with user ID, timestamp, action, resource, and IP address
   5. No secrets are hardcoded in code; all credentials stored in environment variables or secrets manager
-**Plans**: TBD
+**Plans**: 5 plans in 4 waves
 
 Plans:
-- [ ] 00-01: TBD during planning
+- [ ] 00-01-PLAN.md — Spring Boot 3.4.5+ project foundation with HIPAA Security Risk Assessment
+- [ ] 00-02-PLAN.md — JWT authentication with role-based access control and field-level encryption
+- [ ] 00-03-PLAN.md — PostgreSQL with pgAudit extension and audit logging infrastructure
+- [ ] 00-04-PLAN.md — Object-level authorization with PermissionEvaluator and TLS 1.3 configuration
+- [ ] 00-05-PLAN.md — Security verification checkpoint
 
 ### Phase 1: Patient Registration & Search
 **Goal**: Staff can register new patients with complete demographics, search existing patients efficiently, and view patient profiles with duplicate prevention
@@ -103,7 +107,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 0. Security & Compliance Foundation | 0/? | Not started | - |
+| 0. Security & Compliance Foundation | 0/5 | Not started | - |
 | 1. Patient Registration & Search | 0/? | Not started | - |
 | 2. Patient Updates & Status Management | 0/? | Not started | - |
 | 3. Operational Enhancements | 0/? | Not started | - |
