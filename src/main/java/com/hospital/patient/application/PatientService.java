@@ -21,6 +21,8 @@ public class PatientService {
     private MedicalHistoryRepository medicalHistoryRepository;
     @Autowired
     private DuplicateDetectionService duplicateDetectionService;
+    @Autowired
+    private PatientSearchRepository patientSearchRepository;
 
     public DuplicateDetectionService.DuplicateCheckResult checkForDuplicates(RegisterPatientRequest request) {
         return duplicateDetectionService.checkForDuplicates(
@@ -73,6 +75,29 @@ public class PatientService {
         }
 
         return toDetailResponse(savedPatient, savedContacts, savedHistory);
+    }
+
+    @Transactional(readOnly = true)
+    public org.springframework.data.domain.Slice<PatientSummaryResponse> searchPatients(
+        String query,
+        PatientStatus status,
+        Gender gender,
+        String bloodGroup,
+        org.springframework.data.domain.Pageable pageable
+    ) {
+        return patientSearchRepository.searchPatients(query, status, gender, bloodGroup, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public PatientDetailResponse getPatientByBusinessId(UUID businessId) {
+        Patient patient = patientRepository.findLatestVersionByBusinessId(businessId)
+            .orElseThrow(() -> new RuntimeException("Patient not found: " + businessId));
+
+        List<EmergencyContact> contacts = emergencyContactRepository.findByPatientBusinessId(businessId);
+        MedicalHistory history = medicalHistoryRepository.findByPatientBusinessId(businessId)
+            .stream().findFirst().orElse(null);
+
+        return toDetailResponse(patient, contacts, history);
     }
 
     private PatientDetailResponse toDetailResponse(Patient patient, List<EmergencyContact> contacts, MedicalHistory history) {

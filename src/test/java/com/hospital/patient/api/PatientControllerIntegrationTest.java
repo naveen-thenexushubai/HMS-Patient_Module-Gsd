@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -134,5 +134,89 @@ class PatientControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void shouldSearchPatientsByName() throws Exception {
+        // Register a patient first
+        RegisterPatientRequest request = RegisterPatientRequest.builder()
+            .firstName("Alice")
+            .lastName("Johnson")
+            .dateOfBirth(LocalDate.of(1985, 3, 10))
+            .gender(Gender.FEMALE)
+            .phoneNumber("555-111-2222")
+            .email("alice@example.com")
+            .build();
+
+        mockMvc.perform(post("/api/v1/patients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isCreated());
+
+        // Search for the patient
+        mockMvc.perform(get("/api/v1/patients")
+                .param("query", "Alice"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isArray())
+            .andExpect(jsonPath("$.content[0].fullName").value("Alice Johnson"));
+    }
+
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void shouldSearchWithStatusFilter() throws Exception {
+        // Register a patient
+        RegisterPatientRequest request = RegisterPatientRequest.builder()
+            .firstName("Bob")
+            .lastName("Williams")
+            .dateOfBirth(LocalDate.of(1990, 7, 25))
+            .gender(Gender.MALE)
+            .phoneNumber("555-333-4444")
+            .build();
+
+        mockMvc.perform(post("/api/v1/patients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isCreated());
+
+        // Search with status filter
+        mockMvc.perform(get("/api/v1/patients")
+                .param("status", "ACTIVE"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isArray())
+            .andExpect(jsonPath("$.content[0].status").value("ACTIVE"));
+    }
+
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void shouldSearchWithPagination() throws Exception {
+        // Register multiple patients
+        for (int i = 0; i < 3; i++) {
+            RegisterPatientRequest request = RegisterPatientRequest.builder()
+                .firstName("Patient" + i)
+                .lastName("Test")
+                .dateOfBirth(LocalDate.of(1990 + i, 1, 1))
+                .gender(Gender.MALE)
+                .phoneNumber("555-000-000" + i)
+                .build();
+
+            mockMvc.perform(post("/api/v1/patients")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+        }
+
+        // Search with pagination
+        mockMvc.perform(get("/api/v1/patients")
+                .param("size", "2")
+                .param("page", "0"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content.length()").value(2));
+    }
+
+    @Test
+    void shouldDenySearchWithoutAuthentication() throws Exception {
+        mockMvc.perform(get("/api/v1/patients"))
+            .andExpect(status().isUnauthorized());
     }
 }
