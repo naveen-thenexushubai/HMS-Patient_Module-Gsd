@@ -86,6 +86,10 @@ public class Patient {
     @Column(name = "photo_id_verified")
     private Boolean photoIdVerified = false;
 
+    @Column(name = "is_registration_complete")
+    @Builder.Default
+    private Boolean isRegistrationComplete = true;  // Default true: full registrations are complete
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private PatientStatus status = PatientStatus.ACTIVE;
@@ -127,6 +131,9 @@ public class Patient {
         }
         if (status == null) {
             status = PatientStatus.ACTIVE;
+        }
+        if (isRegistrationComplete == null) {
+            isRegistrationComplete = true;
         }
     }
 }

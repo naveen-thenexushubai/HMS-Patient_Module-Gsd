@@ -7,21 +7,21 @@ import lombok.*;
 import java.time.LocalDate;
 
 /**
- * Request body for PUT /api/v1/patients/{businessId}.
- * Contains updateable demographic fields only.
+ * Request body for POST /api/v1/patients/quick (SC1 — quick registration).
  *
- * EXCLUDED (read-only or managed separately):
- *   - patientId: read-only (UPD-03)
- *   - registeredAt/registeredBy: read-only (UPD-04)
- *   - photoIdVerified: preserved from current version by service
- *   - status: use PATCH /status endpoint (STAT-01/STAT-02)
- *   - emergencyContacts: use /emergency-contacts endpoints (EMR-01/EMR-04)
+ * Contains minimal required fields for walk-in patient registration.
+ * Resulting patient has isRegistrationComplete=false and photoIdVerified=false.
+ *
+ * INTENTIONALLY EXCLUDED vs RegisterPatientRequest:
+ *   - @AssertTrue photoIdVerified: walk-in patients have NOT had photo ID verified
+ *   - bloodGroup, allergies, chronicConditions: not required for quick registration
+ *   - emergencyContacts: can be added later via /emergency-contacts endpoint
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdatePatientRequest {
+public class QuickRegisterRequest {
 
     @NotBlank(message = "First name is required")
     @Size(max = 100, message = "First name must not exceed 100 characters")
@@ -42,6 +42,8 @@ public class UpdatePatientRequest {
     @ValidPhoneNumber
     private String phoneNumber;
 
+    // Optional fields — can be provided at time of quick registration or completed later
+
     @Email(message = "Invalid email format")
     private String email;
 
@@ -59,11 +61,4 @@ public class UpdatePatientRequest {
 
     @Pattern(regexp = "^\\d{5}(-\\d{4})?$", message = "Invalid ZIP code format")
     private String zipCode;
-
-    /**
-     * Optional: set to true to mark quick-registered patient as fully complete.
-     * If null, the current isRegistrationComplete value is preserved (no change).
-     * Only relevant for quick-registered patients (isRegistrationComplete=false).
-     */
-    private Boolean isRegistrationComplete;
 }

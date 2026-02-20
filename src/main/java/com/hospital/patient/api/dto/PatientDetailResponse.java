@@ -40,4 +40,5 @@ public class PatientDetailResponse {
     private Instant lastModifiedAt;
     private String lastModifiedBy;
     private Long version;
+    private Boolean isRegistrationComplete;
 }
