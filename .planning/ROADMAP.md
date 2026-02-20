@@ -76,8 +76,8 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Insurance schema (V003 migration), Insurance JPA entity with SensitiveDataConverter PHI encryption, InsuranceRepository, PatientRepository version-query extensions, PatientUpdatedEvent pipeline, and DataIntegrityViolation 409 handler (✓ 2/2 tasks, 6 min)
-- [ ] 02-02-PLAN.md — UpdatePatientRequest / UpdateStatusRequest / InsuranceDto DTOs and full Emergency Contact CRUD API (POST/GET/PUT/DELETE) with ownership validation
-- [ ] 02-03-PLAN.md — Patient demographic update (PUT) and status change (PATCH) services and controller endpoints with event-sourced insert-new-version pattern
+- [x] 02-02-PLAN.md — UpdatePatientRequest / UpdateStatusRequest / InsuranceDto DTOs and full Emergency Contact CRUD API (POST/GET/PUT/DELETE) with ownership validation (✓ 2/2 tasks, 3 min)
+- [x] 02-03-PLAN.md — Patient demographic update (PUT) and status change (PATCH) services and controller endpoints with event-sourced insert-new-version pattern (✓ 2/2 tasks, 2 min)
 - [ ] 02-04-PLAN.md — Insurance CRUD service and controller (POST/PUT/GET) with single-active-record semantics; PatientDetailResponse extended with insuranceInfo field
 - [ ] 02-05-PLAN.md — Phase 2 integration verification tests covering all 6 success criteria
 
@@ -119,6 +119,6 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
 | 1. Patient Registration & Search | 7/7 | Complete   | 2026-02-20 |
-| 2. Patient Updates & Status Management | 2/5 | In Progress|  |
+| 2. Patient Updates & Status Management | 3/5 | In Progress|  |
 | 3. Operational Enhancements | 0/? | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |

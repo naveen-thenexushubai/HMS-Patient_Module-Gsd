@@ -66,7 +66,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UPD-03**: System makes Patient ID read-only (cannot be edited)
 - [x] **UPD-04**: System makes registration date read-only (cannot be edited)
 - [x] **UPD-05**: System applies same validation rules as registration to updates
-- [ ] **UPD-06**: System saves patient updates and displays success message
+- [x] **UPD-06**: System saves patient updates and displays success message
 - [x] **UPD-07**: System records update timestamp and user who made the update
 - [x] **UPD-08**: System discards changes on Cancel and returns to profile view
 - [x] **UPD-09**: System displays specific validation error messages for invalid fields on update
@@ -76,12 +76,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **STAT-01**: Admin can deactivate active patient with confirmation dialog
 - [x] **STAT-02**: Admin can activate inactive patient without confirmation
-- [ ] **STAT-03**: System changes patient status to "INACTIVE" on deactivation
-- [ ] **STAT-04**: System changes patient status to "ACTIVE" on activation
+- [x] **STAT-03**: System changes patient status to "INACTIVE" on deactivation
+- [x] **STAT-04**: System changes patient status to "ACTIVE" on activation
 - [x] **STAT-05**: System records status change timestamp and user who made the change
-- [ ] **STAT-06**: System displays success message after status change
-- [ ] **STAT-07**: System excludes inactive patients from "Active" filter view
-- [ ] **STAT-08**: System includes both active and inactive patients in "All" filter view with status indicators
+- [x] **STAT-06**: System displays success message after status change
+- [x] **STAT-07**: System excludes inactive patients from "Active" filter view
+- [x] **STAT-08**: System includes both active and inactive patients in "All" filter view with status indicators
 
 ### Insurance Management
 
@@ -201,19 +201,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UPD-03 | Phase 2 | Complete |
 | UPD-04 | Phase 2 | Complete |
 | UPD-05 | Phase 2 | Complete |
-| UPD-06 | Phase 2 | Pending |
+| UPD-06 | Phase 2 | Complete |
 | UPD-07 | Phase 2 | Complete |
 | UPD-08 | Phase 2 | Complete |
 | UPD-09 | Phase 2 | Complete |
 | UPD-10 | Phase 2 | Complete |
 | STAT-01 | Phase 2 | Complete |
 | STAT-02 | Phase 2 | Complete |
-| STAT-03 | Phase 2 | Pending |
-| STAT-04 | Phase 2 | Pending |
+| STAT-03 | Phase 2 | Complete |
+| STAT-04 | Phase 2 | Complete |
 | STAT-05 | Phase 2 | Complete |
-| STAT-06 | Phase 2 | Pending |
-| STAT-07 | Phase 2 | Pending |
-| STAT-08 | Phase 2 | Pending |
+| STAT-06 | Phase 2 | Complete |
+| STAT-07 | Phase 2 | Complete |
+| STAT-08 | Phase 2 | Complete |
 | INS-01 | Phase 2 | Complete |
 | INS-02 | Phase 2 | Complete |
 | INS-03 | Phase 2 | Complete |

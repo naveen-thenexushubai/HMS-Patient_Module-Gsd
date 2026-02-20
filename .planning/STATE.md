@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 4 (Patient Updates & Status Management)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In Progress
-Last activity: 2026-02-20 — Completed Plan 02-02: Patient Update DTOs + Emergency Contact CRUD API
+Last activity: 2026-02-20 — Completed Plan 02-03: Patient Update Service (PUT + PATCH /status endpoints)
 
-Progress: [█████████████████████████████░] 58%
+Progress: [██████████████████████████████░] 61%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 23 minutes
-- Total execution time: 3.57 hours
+- Total plans completed: 11
+- Average duration: 21 minutes
+- Total execution time: 3.60 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [███████████████████████
 |-------|-------|-------|----------|
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
 | 01 - Patient Registration & Search | 5 | 155 min | 31 min |
-| 02 - Patient Updates & Status Management | 1 | 6 min | 6 min |
+| 02 - Patient Updates & Status Management | 3 | 11 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 12 min, 5 min, 114 min, 15 min, 6 min
-- Trend: Phase 2 Plan 01 very fast (6 min) - infrastructure/scaffolding with clear spec
+- Last 5 plans: 5 min, 114 min, 15 min, 6 min, 2 min
+- Trend: Phase 2 Plans very fast - clear specs with well-established patterns
 
 *Updated after each plan completion*
 | Phase 01 P01 | 9 | 2 tasks | 14 files |
@@ -45,6 +45,7 @@ Progress: [███████████████████████
 | Phase 01-patient-registration-search P07 | 8 | 2 tasks | 4 files |
 | Phase 02-patient-updates-status-management P01 | 6 | 2 tasks | 9 files |
 | Phase 02-patient-updates-status-management P02 | 3 | 2 tasks | 8 files |
+| Phase 02-patient-updates-status-management P03 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,9 @@ Recent decisions affecting current work:
 - [Phase 02-02]: EmergencyContactDto gets id field (response-only) so clients can construct PUT/DELETE URLs after creation
 - [Phase 02-02]: Cross-patient ownership check in service layer (contact.patientBusinessId == URL businessId) for defense-in-depth
 - [Phase 02-02]: InsuranceDto policyNumber pattern ^[A-Za-z0-9\-]{3,50}$ per INS-02 requirement
+- [Phase 02-03]: toDetailResponse() uses findFirstVersionByBusinessId for registeredAt/registeredBy — multi-version patients show correct registration date
+- [Phase 02-03]: changePatientStatus() is idempotent — same-status requests return current state without inserting new version
+- [Phase 02-03]: PATCH /status endpoint requires hasRole('ADMIN') AND hasPermission write — ADMIN-only access enforced at two levels
 
 ### Pending Todos
 
@@ -103,11 +107,12 @@ None yet.
 - Phase 1 complete (all 7 plans including gap closures) ✅
 - Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
 - Phase 2 Plan 02 complete: UpdatePatientRequest, UpdateStatusRequest, InsuranceDto DTOs + EmergencyContact CRUD API ✅
-- Next: Phase 2 Plan 03 (patient update service)
+- Phase 2 Plan 03 complete: PUT /patients/{businessId} + PATCH /patients/{businessId}/status with PatientUpdatedEvent ✅
+- Next: Phase 2 Plan 04 (Insurance API)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-02-PLAN.md (Patient Update DTOs + Emergency Contact CRUD API)
-Resume file: .planning/phases/02-patient-updates-status-management/02-02-SUMMARY.md
-Next action: Execute Phase 2 Plan 03 (Patient update service)
+Stopped at: Completed 02-03-PLAN.md (Patient Update Service - PUT + PATCH /status endpoints)
+Resume file: .planning/phases/02-patient-updates-status-management/02-03-SUMMARY.md
+Next action: Execute Phase 2 Plan 04 (Insurance API)
