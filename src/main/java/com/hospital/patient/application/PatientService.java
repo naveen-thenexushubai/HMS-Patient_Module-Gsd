@@ -30,6 +30,8 @@ public class PatientService {
     private PatientSearchRepository patientSearchRepository;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private InsuranceService insuranceService;
 
     public DuplicateDetectionService.DuplicateCheckResult checkForDuplicates(RegisterPatientRequest request) {
         return duplicateDetectionService.checkForDuplicates(
@@ -269,6 +271,9 @@ public class PatientService {
                 .build();
         }
 
+        InsuranceDto insuranceDto = insuranceService.getActiveInsurance(patient.getBusinessId())
+            .orElse(null);   // null if no active insurance — response field will be omitted/null
+
         return PatientDetailResponse.builder()
             .patientId(patient.getPatientId())
             .businessId(patient.getBusinessId())
@@ -287,6 +292,7 @@ public class PatientService {
             .status(patient.getStatus())
             .emergencyContacts(contactDtos)
             .medicalHistory(historyDto)
+            .insuranceInfo(insuranceDto)
             .registeredAt(originalVersion.getCreatedAt())    // FROM VERSION 1
             .registeredBy(originalVersion.getCreatedBy())    // FROM VERSION 1
             .lastModifiedAt(patient.getCreatedAt())          // FROM LATEST VERSION

@@ -34,6 +34,7 @@ public class PatientDetailResponse {
     private PatientStatus status;
     private List<EmergencyContactDto> emergencyContacts;
     private MedicalHistoryDto medicalHistory;
+    private InsuranceDto insuranceInfo;
     private Instant registeredAt;
     private String registeredBy;
     private Instant lastModifiedAt;
