@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [▶] **Phase 0: Security & Compliance Foundation** - HIPAA infrastructure and audit logging before any patient data (1/5 complete)
 - [x] **Phase 1: Patient Registration & Search** - Core demographic registration with duplicate detection and search (complete)
-- [ ] **Phase 2: Patient Updates & Status Management** - Profile updates, status changes, insurance, emergency contacts
+- [x] **Phase 2: Patient Updates & Status Management** - Profile updates, status changes, insurance, emergency contacts (completed 2026-02-20)
 - [ ] **Phase 3: Operational Enhancements** - Quick registration, photo capture, data quality dashboard
 - [ ] **Phase 4: Advanced Features & Integration** - Family linking, QR codes, phonetic search, FHIR adapter
 
@@ -78,8 +78,8 @@ Plans:
 - [x] 02-01-PLAN.md — Insurance schema (V003 migration), Insurance JPA entity with SensitiveDataConverter PHI encryption, InsuranceRepository, PatientRepository version-query extensions, PatientUpdatedEvent pipeline, and DataIntegrityViolation 409 handler (✓ 2/2 tasks, 6 min)
 - [x] 02-02-PLAN.md — UpdatePatientRequest / UpdateStatusRequest / InsuranceDto DTOs and full Emergency Contact CRUD API (POST/GET/PUT/DELETE) with ownership validation (✓ 2/2 tasks, 3 min)
 - [x] 02-03-PLAN.md — Patient demographic update (PUT) and status change (PATCH) services and controller endpoints with event-sourced insert-new-version pattern (✓ 2/2 tasks, 2 min)
-- [ ] 02-04-PLAN.md — Insurance CRUD service and controller (POST/PUT/GET) with single-active-record semantics; PatientDetailResponse extended with insuranceInfo field
-- [ ] 02-05-PLAN.md — Phase 2 integration verification tests covering all 6 success criteria
+- [x] 02-04-PLAN.md — Insurance CRUD service and controller (POST/PUT/GET) with single-active-record semantics; PatientDetailResponse extended with insuranceInfo field (✓ 2/2 tasks, 2 min)
+- [x] 02-05-PLAN.md — Phase 2 integration verification tests covering all 6 success criteria (✓ 1/1 tasks, 9 min)
 
 ### Phase 3: Operational Enhancements
 **Goal**: Improve registration efficiency with quick registration, patient photo capture, data quality dashboard, and smart forms
@@ -119,6 +119,6 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
 | 1. Patient Registration & Search | 7/7 | Complete   | 2026-02-20 |
-| 2. Patient Updates & Status Management | 3/5 | In Progress|  |
+| 2. Patient Updates & Status Management | 5/5 | Complete   | 2026-02-20 |
 | 3. Operational Enhancements | 0/? | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |

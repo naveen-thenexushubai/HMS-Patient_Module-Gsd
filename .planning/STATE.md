@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Centralized, secure, and efficient patient information management that serves as the foundation for all other hospital modules
-**Current focus:** Phase 2 - Patient Updates & Status Management
+**Current focus:** Phase 3 - Patient Appointment & Scheduling
 
 ## Current Position
 
 Phase: 2 of 4 (Patient Updates & Status Management)
 Plan: 5 of 5 in current phase
-Status: In Progress
-Last activity: 2026-02-20 — Completed Plan 02-04: Insurance CRUD API (GET/POST/PUT /insurance endpoints)
+Status: Complete
+Last activity: 2026-02-20 — Completed Plan 02-05: Phase 2 Verification Tests (16 integration tests, all Phase 2 criteria verified)
 
-Progress: [████████████████████████████████] 64%
+Progress: [████████████████████████████████████████] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 20 minutes
-- Total execution time: 3.63 hours
+- Total plans completed: 13
+- Average duration: 18 minutes
+- Total execution time: 3.78 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [███████████████████████
 |-------|-------|-------|----------|
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
 | 01 - Patient Registration & Search | 5 | 155 min | 31 min |
-| 02 - Patient Updates & Status Management | 4 | 13 min | 3 min |
+| 02 - Patient Updates & Status Management | 5 | 22 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 5 min, 114 min, 15 min, 6 min, 2 min
-- Trend: Phase 2 Plans very fast - clear specs with well-established patterns
+- Last 5 plans: 114 min, 15 min, 6 min, 2 min, 9 min
+- Trend: Phase 2 complete in 22 min total — well-established patterns, fast execution
 
 *Updated after each plan completion*
 | Phase 01 P01 | 9 | 2 tasks | 14 files |
@@ -47,6 +47,7 @@ Progress: [███████████████████████
 | Phase 02-patient-updates-status-management P02 | 3 | 2 tasks | 8 files |
 | Phase 02-patient-updates-status-management P03 | 2 | 2 tasks | 2 files |
 | Phase 02-patient-updates-status-management P04 | 2 | 2 tasks | 5 files |
+| Phase 02-patient-updates-status-management P05 | 9 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,8 @@ Recent decisions affecting current work:
 - [Phase 02-03]: changePatientStatus() is idempotent — same-status requests return current state without inserting new version
 - [Phase 02-03]: PATCH /status endpoint requires hasRole('ADMIN') AND hasPermission write — ADMIN-only access enforced at two levels
 - [Phase 02-04]: POST /insurance deactivates existing active record and inserts new (single-active-record semantics); PUT modifies active record in-place; EntityNotFoundException handler added to GlobalExceptionHandler for 404 on missing active insurance
+- [Phase 02-patient-updates-status-management]: V005 drops idx_patients_unique_identity: constraint incompatible with event-sourced INSERT pattern for status re-activation; duplicate detection handled at application layer
+- [Phase 02-patient-updates-status-management]: EmergencyContactService.addContact() required createdBy from SecurityContext — NOT NULL constraint fix in standalone endpoint path
 
 ### Pending Todos
 
@@ -104,18 +107,19 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 2 In Progress:**
+**Phase 2 Complete:**
 - Phase 0 complete: 26/26 security tests passing ✅
 - Phase 1 complete (all 7 plans including gap closures) ✅
 - Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
 - Phase 2 Plan 02 complete: UpdatePatientRequest, UpdateStatusRequest, InsuranceDto DTOs + EmergencyContact CRUD API ✅
 - Phase 2 Plan 03 complete: PUT /patients/{businessId} + PATCH /patients/{businessId}/status with PatientUpdatedEvent ✅
 - Phase 2 Plan 04 complete: Insurance CRUD API (GET/POST/PUT /api/v1/patients/{businessId}/insurance), PatientDetailResponse with insuranceInfo ✅
-- Next: Phase 2 Plan 05 (final plan in phase 2)
+- Phase 2 Plan 05 complete: 16 integration tests - all Phase 2 success criteria verified ✅
+- Next: Phase 3 - Patient Appointment & Scheduling
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-04-PLAN.md (Insurance CRUD API - GET/POST/PUT /insurance endpoints)
-Resume file: .planning/phases/02-patient-updates-status-management/02-04-SUMMARY.md
-Next action: Execute Phase 2 Plan 05
+Stopped at: Completed 02-05-PLAN.md (Phase 2 Verification Tests — 16 integration tests, Phase 2 COMPLETE)
+Resume file: .planning/phases/02-patient-updates-status-management/02-05-SUMMARY.md
+Next action: Execute Phase 3 Plan 01
