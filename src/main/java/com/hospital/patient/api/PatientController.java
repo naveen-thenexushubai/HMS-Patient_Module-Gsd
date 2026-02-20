@@ -78,6 +78,45 @@ public class PatientController {
         return ResponseEntity.ok(patient);
     }
 
+    /**
+     * PUT /api/v1/patients/{businessId}
+     * Update patient demographics. Inserts a new patient version row (event-sourced pattern).
+     *
+     * Authorization: RECEPTIONIST or ADMIN only (PatientPermissionEvaluator: write permission).
+     * DOCTOR and NURSE are read-only — they will receive 403 Forbidden.
+     *
+     * UPD-01, UPD-02, UPD-03, UPD-04, UPD-05, UPD-06, UPD-07, UPD-10
+     */
+    @PutMapping("/{businessId}")
+    @PreAuthorize("hasPermission(#businessId, 'Patient', 'write')")
+    @Audited(action = "UPDATE", resourceType = "PATIENT")
+    public ResponseEntity<PatientDetailResponse> updatePatient(
+        @PathVariable UUID businessId,
+        @Valid @RequestBody UpdatePatientRequest request
+    ) {
+        PatientDetailResponse updated = patientService.updatePatient(businessId, request);
+        return ResponseEntity.ok(updated);
+    }
+
+    /**
+     * PATCH /api/v1/patients/{businessId}/status
+     * Change patient status (ACTIVE/INACTIVE). Inserts a new patient version row.
+     *
+     * Authorization: ADMIN only (status changes are sensitive — STAT-01 specifies admin).
+     *
+     * STAT-01, STAT-02, STAT-03, STAT-04, STAT-05, STAT-06
+     */
+    @PatchMapping("/{businessId}/status")
+    @PreAuthorize("hasRole('ADMIN') and hasPermission(#businessId, 'Patient', 'write')")
+    @Audited(action = "UPDATE", resourceType = "PATIENT")
+    public ResponseEntity<PatientDetailResponse> changeStatus(
+        @PathVariable UUID businessId,
+        @Valid @RequestBody UpdateStatusRequest request
+    ) {
+        PatientDetailResponse updated = patientService.changePatientStatus(businessId, request.getStatus());
+        return ResponseEntity.ok(updated);
+    }
+
     private DuplicateMatchDto toDuplicateMatchDto(DuplicateDetectionService.DuplicateMatch match) {
         Patient p = match.getPatient();
         return DuplicateMatchDto.builder()
