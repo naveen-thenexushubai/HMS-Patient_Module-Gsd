@@ -4,6 +4,7 @@ import com.hospital.patient.application.DuplicateDetectionService.DuplicateMatch
 import com.hospital.patient.domain.Patient;
 import com.hospital.patient.exception.DuplicatePatientException;
 import com.hospital.patient.exception.PatientNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -183,6 +184,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/conflict"));
         problemDetail.setProperty("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+    }
+
+    /**
+     * Handle JPA entity not found errors (e.g., no active insurance found).
+     * Returns 404 with RFC 7807 Problem Details.
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleEntityNotFound(
+        EntityNotFoundException ex,
+        WebRequest request
+    ) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND, ex.getMessage()
+        );
+        problemDetail.setTitle("Resource Not Found");
+        problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/not-found"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
 
     /**
