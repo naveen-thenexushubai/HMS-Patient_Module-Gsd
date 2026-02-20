@@ -5,6 +5,8 @@ import com.hospital.patient.domain.*;
 import com.hospital.patient.exception.PatientNotFoundException;
 import com.hospital.patient.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,19 @@ public class PatientService {
         );
     }
 
+    /**
+     * Get the current authenticated username from Spring Security context.
+     * Falls back to "system" if no authentication is present.
+     */
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()
+                && !authentication.getPrincipal().equals("anonymousUser")) {
+            return authentication.getName();
+        }
+        return "system";
+    }
+
     public PatientDetailResponse registerPatient(RegisterPatientRequest request) {
         Patient patient = Patient.builder()
             .firstName(request.getFirstName())
@@ -50,6 +65,8 @@ public class PatientService {
 
         Patient savedPatient = patientRepository.save(patient);
 
+        String currentUser = getCurrentUsername();
+
         List<EmergencyContact> savedContacts = new ArrayList<>();
         if (request.getEmergencyContacts() != null) {
             for (EmergencyContactDto ecDto : request.getEmergencyContacts()) {
@@ -59,6 +76,7 @@ public class PatientService {
                     .phoneNumber(ecDto.getPhoneNumber())
                     .relationship(ecDto.getRelationship())
                     .isPrimary(ecDto.getIsPrimary() != null ? ecDto.getIsPrimary() : false)
+                    .createdBy(currentUser)
                     .build();
                 savedContacts.add(emergencyContactRepository.save(contact));
             }
@@ -71,6 +89,7 @@ public class PatientService {
                 .bloodGroup(request.getMedicalHistory().getBloodGroup())
                 .allergies(request.getMedicalHistory().getAllergies())
                 .chronicConditions(request.getMedicalHistory().getChronicConditions())
+                .createdBy(currentUser)
                 .build();
             savedHistory = medicalHistoryRepository.save(history);
         }
