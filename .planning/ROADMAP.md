@@ -72,10 +72,14 @@ Plans:
   4. Receptionist can capture and update insurance information (provider, policy number, group number, coverage type)
   5. Receptionist can add, view, update, and remove multiple emergency contacts with phone validation and audit trail
   6. System publishes PatientUpdated event to message broker after successful update for downstream module consumption
-**Plans**: TBD
+**Plans**: 5 plans in 3 waves
 
 Plans:
-- [ ] 02-01: TBD during planning
+- [ ] 02-01-PLAN.md — Insurance schema (V003 migration), Insurance JPA entity with SensitiveDataConverter PHI encryption, InsuranceRepository, PatientRepository version-query extensions, PatientUpdatedEvent pipeline, and DataIntegrityViolation 409 handler
+- [ ] 02-02-PLAN.md — UpdatePatientRequest / UpdateStatusRequest / InsuranceDto DTOs and full Emergency Contact CRUD API (POST/GET/PUT/DELETE) with ownership validation
+- [ ] 02-03-PLAN.md — Patient demographic update (PUT) and status change (PATCH) services and controller endpoints with event-sourced insert-new-version pattern
+- [ ] 02-04-PLAN.md — Insurance CRUD service and controller (POST/PUT/GET) with single-active-record semantics; PatientDetailResponse extended with insuranceInfo field
+- [ ] 02-05-PLAN.md — Phase 2 integration verification tests covering all 6 success criteria
 
 ### Phase 3: Operational Enhancements
 **Goal**: Improve registration efficiency with quick registration, patient photo capture, data quality dashboard, and smart forms
@@ -115,6 +119,6 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
 | 1. Patient Registration & Search | 7/7 | Complete   | 2026-02-20 |
-| 2. Patient Updates & Status Management | 0/? | Not started | - |
+| 2. Patient Updates & Status Management | 0/5 | Not started | - |
 | 3. Operational Enhancements | 0/? | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |
