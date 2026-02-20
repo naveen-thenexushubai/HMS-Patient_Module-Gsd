@@ -7,6 +7,7 @@ import com.hospital.patient.exception.PatientNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
@@ -210,10 +211,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * MaxUploadSizeExceededException is thrown by DispatcherServlet filter chain BEFORE
      * the controller method is reached when upload exceeds spring.servlet.multipart.max-file-size.
      * Without this handler, the exception becomes a 500 error. RFC 7807 400 is correct response.
+     *
+     * Overrides ResponseEntityExceptionHandler.handleMaxUploadSizeExceededException to avoid
+     * ambiguous @ExceptionHandler conflict with the parent class's handleException method.
      */
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<ProblemDetail> handleMaxUploadSize(
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(
         MaxUploadSizeExceededException ex,
+        HttpHeaders headers,
+        HttpStatusCode status,
         WebRequest request
     ) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

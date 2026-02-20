@@ -41,3 +41,8 @@ jwt:
 
 encryption:
   key: MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=
+
+# Phase 3: Use writable temp directory for test photo storage
+app:
+  storage:
+    photos-dir: ${java.io.tmpdir}/hospital-test-photos
