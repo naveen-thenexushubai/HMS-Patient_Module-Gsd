@@ -50,6 +50,7 @@ Progress: [███████████████████████
 | Phase 02-patient-updates-status-management P04 | 2 | 2 tasks | 5 files |
 | Phase 02-patient-updates-status-management P05 | 9 | 1 tasks | 3 files |
 | Phase 03-operational-enhancements P01 | 2 | 2 tasks | 8 files |
+| Phase 03-operational-enhancements P02 | 8 | 2 tasks | 7 files |
 | Phase 03-operational-enhancements P03 | 2 | 2 tasks | 5 files |
 | Phase 03 P04 | 2 | 1 tasks | 4 files |
 | Phase 03-operational-enhancements P05 | 1 | 2 tasks | 4 files |
@@ -110,6 +111,9 @@ Recent decisions affecting current work:
 - [Plan 03-01]: @EnableCaching on CacheConfig only, not HospitalApplication — avoids duplicate startup warning
 - [Plan 03-01]: RestTemplate declared as @Bean — Spring Boot 3 does not auto-configure RestTemplate
 - [Plan 03-01]: FileStorageService uses constructor @Value injection for early storage directory creation at bean init time
+- [Plan 03-02]: QuickRegistrationService delegates to PatientService.getPatientByBusinessId() after save — avoids duplicating toDetailResponse() and ensures consistent response with insurance, contacts, registeredAt
+- [Plan 03-02]: Boolean (wrapper) not boolean (primitive) for isRegistrationComplete in Patient — null-safe for pre-Phase-3 rows; @PrePersist and service-layer null guards default to true
+- [Plan 03-02]: QuickRegistrationController and PatientController share /api/v1/patients base path; Spring MVC disambiguates via /quick sub-path — no conflict
 - [Phase 03-03]: Object[] return from PhotoService.getCurrentPhoto() to avoid creating a dedicated wrapper DTO for a two-value tuple (Resource + contentType String)
 - [Phase 03-03]: MaxUploadSizeExceededException handler in @RestControllerAdvice — exception thrown before controller executes, cannot be caught in try/catch in controller
 - [Phase 03]: nativeQuery=true required for all patients_latest view queries — JPQL resolves to patients entity table (wrong multi-version counts)
@@ -129,7 +133,8 @@ None yet.
 - Phase 1 complete (all 7 plans including gap closures)
 - Phase 2 complete: 16 integration tests, all Phase 2 success criteria verified
 - Phase 3 Plan 01 complete: Infrastructure foundation (V006/V007 migrations, FileStorageService, CacheConfig, SmartFormProperties, RestTemplateConfig)
-- Next: Phase 3 Plan 02 (Quick Registration)
+- Phase 3 Plan 02 complete: Quick registration (POST /api/v1/patients/quick, QuickRegisterRequest, QuickRegistrationService, isRegistrationComplete field)
+- Phase 3 Plans 03-05 complete (executed previously)
 
 ## Session Continuity
 
