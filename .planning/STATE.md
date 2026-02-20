@@ -40,6 +40,7 @@ Progress: [███████████████████████
 | Phase 01 P03 | 114 | 2 tasks | 6 files |
 | Phase 01-patient-registration-search P04 | 5 | 2 tasks | 5 files |
 | Phase 01-patient-registration-search P05 | 12 | 2 tasks | 5 files |
+| Phase 01-patient-registration-search P06 | 4 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,7 @@ Recent decisions affecting current work:
 - [Phase 01-04]: PatientPermissionEvaluator first overload defaults to Patient type (evaluator is Patient-scoped)
 - [Phase 01-04]: NURSE read-only in Phase 1 (Phase 2 will add care_team table check)
 - [Phase 01-05]: RFC 7807 ProblemDetail via Spring Framework 6 native support; GlobalExceptionHandler in shared.exception package; blocking duplicates (>=90%) return 403 even with overrideDuplicate=true
+- [Phase 01-patient-registration-search]: Plan 01-06: maxEditDistance=2 for Levenshtein fuzzy search (1-char edit catches Jon/John and Smyth/Smith; in-memory pass safe for Phase 1 <10K scale)
 
 ### Pending Todos
 
@@ -82,20 +84,21 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 1 Complete:**
+**Phase 1 Complete (including gap closure):**
 - Phase 0 complete: 26/26 security tests passing ✅
 - Phase 1 Plan 01 complete: Event-sourced patient data foundation ✅
 - Phase 1 Plan 02 complete: Patient registration API with duplicate detection ✅
 - Phase 1 Plan 03 complete: Patient search API with JPQL queries ✅
 - Phase 1 Plan 04 complete: PatientPermissionEvaluator authorization rules ✅
 - Phase 1 Plan 05 complete: RFC 7807 error handling + Phase 1 verification ✅
-- 83 total tests run, 81 passing (2 pre-existing DB state pollution failures - deferred)
-- All 6 ROADMAP Phase 1 success criteria verified
+- Phase 1 Plan 06 complete: Fuzzy name matching gap closure (SRCH-04) ✅
+- 13/13 PatientSearchRepositoryTest passing; 8/8 Phase01VerificationTest passing
+- SRCH-04 closed: "Jon" finds "John", "Smyth" finds "Smith" via Levenshtein edit-distance 2
 - Next: Phase 2 (Patient Management - edit, status changes)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 01-05-PLAN.md (RFC 7807 Error Handling and Phase 1 Verification) - Phase 1 COMPLETE
-Resume file: .planning/phases/01-patient-registration-search/01-05-SUMMARY.md
-Next action: Begin Phase 2 (Patient Management)
+Stopped at: Completed 01-06-PLAN.md (Fuzzy Name Matching Gap Closure for SRCH-04)
+Resume file: .planning/phases/01-patient-registration-search/01-06-SUMMARY.md
+Next action: Begin Phase 2 (Patient Management) or next gap closure plan
