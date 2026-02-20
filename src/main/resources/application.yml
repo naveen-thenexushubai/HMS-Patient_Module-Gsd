@@ -53,6 +53,13 @@ spring:
       name: ${ADMIN_USERNAME:admin}
       password: ${ADMIN_PASSWORD:changeme}
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 6MB
+      file-size-threshold: 2KB
+
 # JWT Configuration
 jwt:
   secret: ${JWT_SECRET}
@@ -80,3 +87,20 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+
+# Phase 3: Application-specific properties
+app:
+  storage:
+    photos-dir: ${PHOTOS_DIR:/var/hospital/patient-photos}
+  smart-form:
+    insurance-plans:
+      - "Blue Cross Blue Shield"
+      - "Aetna"
+      - "Cigna"
+      - "United Healthcare"
+      - "Humana"
+      - "Medicare"
+      - "Medicaid"
+      - "Anthem"
+      - "Kaiser Permanente"
+      - "Molina Healthcare"
