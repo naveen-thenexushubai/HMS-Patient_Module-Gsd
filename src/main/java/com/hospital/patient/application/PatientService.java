@@ -93,9 +93,11 @@ public class PatientService {
         Patient patient = patientRepository.findLatestVersionByBusinessId(businessId)
             .orElseThrow(() -> new RuntimeException("Patient not found: " + businessId));
 
-        List<EmergencyContact> contacts = emergencyContactRepository.findByPatientBusinessId(businessId);
-        MedicalHistory history = medicalHistoryRepository.findByPatientBusinessId(businessId)
-            .stream().findFirst().orElse(null);
+        // Use ordered query to return primary contact first; use findLatest for medical history
+        List<EmergencyContact> contacts = emergencyContactRepository
+            .findByPatientBusinessIdOrderByIsPrimaryDesc(businessId);
+        MedicalHistory history = medicalHistoryRepository
+            .findLatestByPatientBusinessId(businessId).orElse(null);
 
         return toDetailResponse(patient, contacts, history);
     }
