@@ -468,4 +468,86 @@ public class Phase01VerificationTest {
             .andExpect(jsonPath("$.patientIdentifier").exists())
             .andExpect(jsonPath("$.timestamp").exists());
     }
+
+    /**
+     * REG-12 GAP CLOSURE:
+     * Registration must be rejected (400 Bad Request) when photoIdVerified is false.
+     * Verifies that the @AssertTrue constraint fires and the RFC 7807 response
+     * contains the correct fieldErrors entry.
+     */
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void reg12_registrationRejectedWhenPhotoIdNotVerified() throws Exception {
+        RegisterPatientRequest request = RegisterPatientRequest.builder()
+            .firstName("Test")
+            .lastName("Patient")
+            .dateOfBirth(LocalDate.of(1990, 1, 1))
+            .gender(Gender.MALE)
+            .phoneNumber("555-123-9999")
+            .email("test.patient@example.com")
+            .photoIdVerified(false)  // Explicitly not verified
+            .build();
+
+        mockMvc.perform(post("/api/v1/patients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.fieldErrors").isMap())
+            .andExpect(jsonPath("$.fieldErrors.photoIdVerified").exists());
+    }
+
+    /**
+     * REG-12 GAP CLOSURE:
+     * Registration succeeds (201 Created) when photoIdVerified is true.
+     * Verifies the happy path for the photo ID verification flag.
+     */
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void reg12_registrationSucceedsWhenPhotoIdVerified() throws Exception {
+        RegisterPatientRequest request = RegisterPatientRequest.builder()
+            .firstName("Verified")
+            .lastName("Patient")
+            .dateOfBirth(LocalDate.of(1988, 6, 15))
+            .gender(Gender.FEMALE)
+            .phoneNumber("555-456-7890")
+            .email("verified.patient@example.com")
+            .photoIdVerified(true)  // Verified — registration allowed
+            .build();
+
+        mockMvc.perform(post("/api/v1/patients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.patientId").exists())
+            .andExpect(jsonPath("$.firstName").value("Verified"));
+    }
+
+    /**
+     * REG-12 GAP CLOSURE:
+     * Registration must be rejected (400 Bad Request) when photoIdVerified is omitted (null).
+     * The @NotNull constraint fires before @AssertTrue.
+     */
+    @Test
+    @WithMockUser(roles = "RECEPTIONIST")
+    void reg12_registrationRejectedWhenPhotoIdNull() throws Exception {
+        // Omit photoIdVerified entirely (null) — should fail @NotNull
+        String requestJson = """
+            {
+              "firstName": "Null",
+              "lastName": "PhotoId",
+              "dateOfBirth": "1992-03-15",
+              "gender": "MALE",
+              "phoneNumber": "555-321-6543"
+            }
+            """;
+
+        mockMvc.perform(post("/api/v1/patients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.fieldErrors").isMap())
+            .andExpect(jsonPath("$.fieldErrors.photoIdVerified").exists());
+    }
 }
