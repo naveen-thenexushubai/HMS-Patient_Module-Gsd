@@ -55,6 +55,9 @@ public class PatientSearchRepositoryTest {
 
     @BeforeEach
     void setUp() throws InterruptedException {
+        // Clear DB first to ensure no cross-test contamination from other test classes
+        patientRepository.deleteAll();
+
         // Seed test patients with various names, phones, emails
         createPatient("John", "Smith", "555-1234", "john.smith@example.com",
             Gender.MALE, PatientStatus.ACTIVE, LocalDate.of(1990, 5, 15));
