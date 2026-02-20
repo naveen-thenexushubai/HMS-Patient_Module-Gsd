@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 4 (Patient Updates & Status Management)
-Plan: 2 of 5 in current phase
+Plan: 3 of 5 in current phase
 Status: In Progress
-Last activity: 2026-02-20 — Completed Plan 02-01: Phase 2 Infrastructure Foundation (insurance schema, event pipeline, 409 handler)
+Last activity: 2026-02-20 — Completed Plan 02-02: Patient Update DTOs + Emergency Contact CRUD API
 
 Progress: [█████████████████████████████░] 58%
 
@@ -44,6 +44,7 @@ Progress: [███████████████████████
 | Phase 01-patient-registration-search P06 | 4 | 2 tasks | 2 files |
 | Phase 01-patient-registration-search P07 | 8 | 2 tasks | 4 files |
 | Phase 02-patient-updates-status-management P01 | 6 | 2 tasks | 9 files |
+| Phase 02-patient-updates-status-management P02 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,9 @@ Recent decisions affecting current work:
 - [Phase 02-01]: No FK from insurance to patients — event-sourced pattern: business_id repeats across versions
 - [Phase 02-01]: @TransactionalEventListener(AFTER_COMMIT) over @EventListener — guarantees new patient row committed before listener fires
 - [Phase 02-01]: @EnableAsync added to HospitalApplication for non-blocking @Async listener execution
+- [Phase 02-02]: EmergencyContactDto gets id field (response-only) so clients can construct PUT/DELETE URLs after creation
+- [Phase 02-02]: Cross-patient ownership check in service layer (contact.patientBusinessId == URL businessId) for defense-in-depth
+- [Phase 02-02]: InsuranceDto policyNumber pattern ^[A-Za-z0-9\-]{3,50}$ per INS-02 requirement
 
 ### Pending Todos
 
@@ -98,11 +102,12 @@ None yet.
 - Phase 0 complete: 26/26 security tests passing ✅
 - Phase 1 complete (all 7 plans including gap closures) ✅
 - Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
-- Next: Phase 2 Plan 02 (patient update DTOs + emergency contacts)
+- Phase 2 Plan 02 complete: UpdatePatientRequest, UpdateStatusRequest, InsuranceDto DTOs + EmergencyContact CRUD API ✅
+- Next: Phase 2 Plan 03 (patient update service)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-01-PLAN.md (Phase 2 Infrastructure Foundation)
-Resume file: .planning/phases/02-patient-updates-status-management/02-01-SUMMARY.md
-Next action: Execute Phase 2 Plan 02 (Patient Update DTOs + Emergency Contact management)
+Stopped at: Completed 02-02-PLAN.md (Patient Update DTOs + Emergency Contact CRUD API)
+Resume file: .planning/phases/02-patient-updates-status-management/02-02-SUMMARY.md
+Next action: Execute Phase 2 Plan 03 (Patient update service)

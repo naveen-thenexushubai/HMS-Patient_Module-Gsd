@@ -61,21 +61,21 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Patient Information Update
 
-- [ ] **UPD-01**: Receptionist/Admin can update patient demographic information via editable form
-- [ ] **UPD-02**: System pre-populates edit form with current patient data
-- [ ] **UPD-03**: System makes Patient ID read-only (cannot be edited)
-- [ ] **UPD-04**: System makes registration date read-only (cannot be edited)
-- [ ] **UPD-05**: System applies same validation rules as registration to updates
+- [x] **UPD-01**: Receptionist/Admin can update patient demographic information via editable form
+- [x] **UPD-02**: System pre-populates edit form with current patient data
+- [x] **UPD-03**: System makes Patient ID read-only (cannot be edited)
+- [x] **UPD-04**: System makes registration date read-only (cannot be edited)
+- [x] **UPD-05**: System applies same validation rules as registration to updates
 - [ ] **UPD-06**: System saves patient updates and displays success message
 - [x] **UPD-07**: System records update timestamp and user who made the update
-- [ ] **UPD-08**: System discards changes on Cancel and returns to profile view
-- [ ] **UPD-09**: System displays specific validation error messages for invalid fields on update
+- [x] **UPD-08**: System discards changes on Cancel and returns to profile view
+- [x] **UPD-09**: System displays specific validation error messages for invalid fields on update
 - [x] **UPD-10**: System publishes PatientUpdated event to message broker after successful update
 
 ### Patient Status Management
 
-- [ ] **STAT-01**: Admin can deactivate active patient with confirmation dialog
-- [ ] **STAT-02**: Admin can activate inactive patient without confirmation
+- [x] **STAT-01**: Admin can deactivate active patient with confirmation dialog
+- [x] **STAT-02**: Admin can activate inactive patient without confirmation
 - [ ] **STAT-03**: System changes patient status to "INACTIVE" on deactivation
 - [ ] **STAT-04**: System changes patient status to "ACTIVE" on activation
 - [x] **STAT-05**: System records status change timestamp and user who made the change
@@ -93,10 +93,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Emergency Contacts
 
-- [ ] **EMR-01**: Receptionist can add multiple emergency contacts for patient (name, phone, relationship)
-- [ ] **EMR-02**: System validates emergency contact phone number format
-- [ ] **EMR-03**: Staff can view all emergency contacts on patient profile
-- [ ] **EMR-04**: Receptionist/Admin can update or remove emergency contacts with audit trail
+- [x] **EMR-01**: Receptionist can add multiple emergency contacts for patient (name, phone, relationship)
+- [x] **EMR-02**: System validates emergency contact phone number format
+- [x] **EMR-03**: Staff can view all emergency contacts on patient profile
+- [x] **EMR-04**: Receptionist/Admin can update or remove emergency contacts with audit trail
 
 ## v2 Requirements
 
@@ -196,18 +196,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-07 | Phase 1 | Complete |
 | PROF-08 | Phase 1 | Complete |
 | PROF-09 | Phase 1 | Complete |
-| UPD-01 | Phase 2 | Pending |
-| UPD-02 | Phase 2 | Pending |
-| UPD-03 | Phase 2 | Pending |
-| UPD-04 | Phase 2 | Pending |
-| UPD-05 | Phase 2 | Pending |
+| UPD-01 | Phase 2 | Complete |
+| UPD-02 | Phase 2 | Complete |
+| UPD-03 | Phase 2 | Complete |
+| UPD-04 | Phase 2 | Complete |
+| UPD-05 | Phase 2 | Complete |
 | UPD-06 | Phase 2 | Pending |
 | UPD-07 | Phase 2 | Complete |
-| UPD-08 | Phase 2 | Pending |
-| UPD-09 | Phase 2 | Pending |
+| UPD-08 | Phase 2 | Complete |
+| UPD-09 | Phase 2 | Complete |
 | UPD-10 | Phase 2 | Complete |
-| STAT-01 | Phase 2 | Pending |
-| STAT-02 | Phase 2 | Pending |
+| STAT-01 | Phase 2 | Complete |
+| STAT-02 | Phase 2 | Complete |
 | STAT-03 | Phase 2 | Pending |
 | STAT-04 | Phase 2 | Pending |
 | STAT-05 | Phase 2 | Complete |
@@ -219,10 +219,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INS-03 | Phase 2 | Complete |
 | INS-04 | Phase 2 | Pending |
 | INS-05 | Phase 2 | Pending |
-| EMR-01 | Phase 2 | Pending |
-| EMR-02 | Phase 2 | Pending |
-| EMR-03 | Phase 2 | Pending |
-| EMR-04 | Phase 2 | Pending |
+| EMR-01 | Phase 2 | Complete |
+| EMR-02 | Phase 2 | Complete |
+| EMR-03 | Phase 2 | Complete |
+| EMR-04 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 50 total
