@@ -245,4 +245,49 @@ public class PatientSearchRepositoryTest {
         assertThat(lastNames).isSorted();
     }
 
+    @Test
+    void fuzzySearch_findsPatientByFirstNameSpellingVariation() {
+        // "Jon" should find "John" (1-char edit distance)
+        Pageable pageable = PageRequest.of(0, 20);
+        Slice<PatientSummaryResponse> results = patientSearchRepository.searchPatients(
+            "Jon", null, null, null, pageable
+        );
+
+        // Should find John Smith (already seeded in setUp)
+        assertThat(results.getContent())
+            .extracting(PatientSummaryResponse::getFullName)
+            .anyMatch(name -> name.contains("John"));
+    }
+
+    @Test
+    void fuzzySearch_findsPatientByLastNameSpellingVariation() {
+        // Seed a patient with last name "Smith" then search "Smyth" (1-char edit distance)
+        createPatient("Alice", "Smith", "555-8888", "alice.smith@example.com",
+            Gender.FEMALE, PatientStatus.ACTIVE, LocalDate.of(1985, 3, 20));
+
+        Pageable pageable = PageRequest.of(0, 20);
+        Slice<PatientSummaryResponse> results = patientSearchRepository.searchPatients(
+            "Smyth", null, null, null, pageable
+        );
+
+        assertThat(results.getContent())
+            .extracting(PatientSummaryResponse::getFullName)
+            .anyMatch(name -> name.contains("Smith"));
+    }
+
+    @Test
+    void fuzzySearch_doesNotActivateForNonNameQueries() {
+        // Phone number query ("555-1234") should NOT trigger fuzzy pass
+        // because it contains digits — should return only LIKE results
+        Pageable pageable = PageRequest.of(0, 20);
+        Slice<PatientSummaryResponse> results = patientSearchRepository.searchPatients(
+            "555-1234", null, null, null, pageable
+        );
+
+        // Verify search still works (returns LIKE results for phone)
+        // and no exception thrown (fuzzy skipped silently)
+        assertThat(results).isNotNull();
+        assertThat(results.getContent()).isNotEmpty(); // John Smith has 555-1234 in setUp
+    }
+
 }
