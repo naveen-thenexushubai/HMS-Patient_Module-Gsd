@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 Phase: 1 of 4 (Patient Registration & Search)
 Plan: 5 of 5 in current phase
 Status: Phase 1 Complete - advancing to Phase 2
-Last activity: 2026-02-20 — Completed Plan 01-05: RFC 7807 Error Handling and Phase 1 Verification
+Last activity: 2026-02-20 — Completed Plan 01-07: REG-12 Gap Closure (photoIdVerified enforcement)
 
 Progress: [████████████████████████░░░░░░] 50%
 
@@ -41,6 +41,7 @@ Progress: [███████████████████████
 | Phase 01-patient-registration-search P04 | 5 | 2 tasks | 5 files |
 | Phase 01-patient-registration-search P05 | 12 | 2 tasks | 5 files |
 | Phase 01-patient-registration-search P06 | 4 | 2 tasks | 2 files |
+| Phase 01-patient-registration-search P07 | 8 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,8 @@ Recent decisions affecting current work:
 - [Phase 01-04]: NURSE read-only in Phase 1 (Phase 2 will add care_team table check)
 - [Phase 01-05]: RFC 7807 ProblemDetail via Spring Framework 6 native support; GlobalExceptionHandler in shared.exception package; blocking duplicates (>=90%) return 403 even with overrideDuplicate=true
 - [Phase 01-patient-registration-search]: Plan 01-06: maxEditDistance=2 for Levenshtein fuzzy search (1-char edit catches Jon/John and Smyth/Smith; in-memory pass safe for Phase 1 <10K scale)
+- [Phase 01-07]: @AssertTrue on Boolean (not boolean primitive) for photoIdVerified so @NotNull catches null and @AssertTrue catches false separately
+- [Phase 01-07]: REG-12 satisfied for Phase 1 via API flag enforcement only; no file upload/storage - scan/upload UI is Phase 3 concern
 
 ### Pending Todos
 
@@ -92,13 +95,15 @@ None yet.
 - Phase 1 Plan 04 complete: PatientPermissionEvaluator authorization rules ✅
 - Phase 1 Plan 05 complete: RFC 7807 error handling + Phase 1 verification ✅
 - Phase 1 Plan 06 complete: Fuzzy name matching gap closure (SRCH-04) ✅
-- 13/13 PatientSearchRepositoryTest passing; 8/8 Phase01VerificationTest passing
+- Phase 1 Plan 07 complete: REG-12 gap closure (photoIdVerified enforcement at registration) ✅
+- 13/13 PatientSearchRepositoryTest passing; 11/11 Phase01VerificationTest passing (24/24 combined)
 - SRCH-04 closed: "Jon" finds "John", "Smyth" finds "Smith" via Levenshtein edit-distance 2
+- REG-12 closed: POST /api/v1/patients with photoIdVerified=false/null returns 400; with true returns 201
 - Next: Phase 2 (Patient Management - edit, status changes)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 01-06-PLAN.md (Fuzzy Name Matching Gap Closure for SRCH-04)
-Resume file: .planning/phases/01-patient-registration-search/01-06-SUMMARY.md
-Next action: Begin Phase 2 (Patient Management) or next gap closure plan
+Stopped at: Completed 01-07-PLAN.md (REG-12 Gap Closure - photoIdVerified enforcement at registration)
+Resume file: .planning/phases/01-patient-registration-search/01-07-SUMMARY.md
+Next action: Begin Phase 2 (Patient Management - edit, status changes)
