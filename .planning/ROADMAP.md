@@ -94,7 +94,7 @@ Plans:
 
 Plans:
 - [ ] 03-01-PLAN.md — Infrastructure: Caffeine cache deps, V006 patient_photos migration, V007 is_registration_complete migration, FileStorageService, RestTemplateConfig, CacheConfig, SmartFormProperties, application.yml multipart/storage/smart-form config
-- [ ] 03-02-PLAN.md — Quick registration: QuickRegisterRequest DTO, Patient entity isRegistrationComplete field, QuickRegistrationService, QuickRegistrationController (POST /api/v1/patients/quick), PatientDetailResponse and UpdatePatientRequest extensions
+- [x] 03-02-PLAN.md — Quick registration: QuickRegisterRequest DTO, Patient entity isRegistrationComplete field, QuickRegistrationService, QuickRegistrationController (POST /api/v1/patients/quick), PatientDetailResponse and UpdatePatientRequest extensions (✓ 2/2 tasks, 8 min)
 - [ ] 03-03-PLAN.md — Photo upload: PatientPhoto entity, PatientPhotoRepository, PhotoService, PhotoController (POST/GET /api/v1/patients/{id}/photo), MaxUploadSizeExceededException and IllegalArgumentException handlers in GlobalExceptionHandler
 - [ ] 03-04-PLAN.md — Data quality dashboard: DataQualityReport DTO, DataQualityRepository (5 nativeQuery COUNT queries against patients_latest), DataQualityService, DataQualityController (GET /api/v1/admin/data-quality, ADMIN-only)
 - [ ] 03-05-PLAN.md — Smart forms: ZipLookupResponse DTO, ZipLookupService (@Cacheable Zippopotam.us), InsuranceSuggestionService, SmartFormController (GET /api/v1/smart-form/zip/{zip} + GET /api/v1/smart-form/insurance-plans)
@@ -125,5 +125,5 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
 | 1. Patient Registration & Search | 7/7 | Complete   | 2026-02-20 |
 | 2. Patient Updates & Status Management | 5/5 | Complete   | 2026-02-20 |
-| 3. Operational Enhancements | 4/6 | In Progress|  |
+| 3. Operational Enhancements | 5/6 | In Progress|  |
 | 4. Advanced Features & Integration | 0/? | Not started | - |
