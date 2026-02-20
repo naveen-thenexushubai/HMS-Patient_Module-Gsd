@@ -2,6 +2,7 @@ package com.hospital.patient.application;
 
 import com.hospital.patient.api.dto.*;
 import com.hospital.patient.domain.*;
+import com.hospital.patient.exception.PatientNotFoundException;
 import com.hospital.patient.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,7 +92,7 @@ public class PatientService {
     @Transactional(readOnly = true)
     public PatientDetailResponse getPatientByBusinessId(UUID businessId) {
         Patient patient = patientRepository.findLatestVersionByBusinessId(businessId)
-            .orElseThrow(() -> new RuntimeException("Patient not found: " + businessId));
+            .orElseThrow(() -> new PatientNotFoundException(businessId.toString()));
 
         // Use ordered query to return primary contact first; use findLatest for medical history
         List<EmergencyContact> contacts = emergencyContactRepository
