@@ -54,6 +54,10 @@ public class RegisterPatientRequest {
     @Pattern(regexp = "^\\d{5}(-\\d{4})?$", message = "Invalid ZIP code format (use XXXXX or XXXXX-XXXX)")
     private String zipCode;
 
+    @NotNull(message = "Photo ID verification is required")
+    @AssertTrue(message = "Photo ID must be verified before registration")
+    private Boolean photoIdVerified;
+
     @Valid
     private List<EmergencyContactDto> emergencyContacts;
 

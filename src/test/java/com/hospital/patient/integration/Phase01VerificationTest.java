@@ -77,6 +77,7 @@ public class Phase01VerificationTest {
             .gender(Gender.MALE)
             .phoneNumber("555-123-4567")
             .email("john.doe@example.com")
+            .photoIdVerified(true)
             .build();
 
         MvcResult result = mockMvc.perform(post("/api/v1/patients")
@@ -100,6 +101,7 @@ public class Phase01VerificationTest {
             .gender(Gender.FEMALE)
             .phoneNumber("555-987-6543")
             .email("jane.doe@example.com")
+            .photoIdVerified(true)
             .build();
 
         MvcResult result2 = mockMvc.perform(post("/api/v1/patients")
@@ -136,6 +138,7 @@ public class Phase01VerificationTest {
             .gender(Gender.FEMALE)
             .phoneNumber("555-999-8888")
             .email("jane.smith@example.com")
+            .photoIdVerified(true)
             .build();
 
         mockMvc.perform(post("/api/v1/patients")
@@ -152,6 +155,7 @@ public class Phase01VerificationTest {
             .gender(Gender.FEMALE)
             .phoneNumber("555-999-8888")
             .email("jane.smith2@example.com")
+            .photoIdVerified(true)
             .build();
 
         mockMvc.perform(post("/api/v1/patients")
@@ -177,6 +181,7 @@ public class Phase01VerificationTest {
             .gender(Gender.FEMALE)
             .phoneNumber("555-111-7777")
             .email("unique.patient@example.com")
+            .photoIdVerified(true)
             .build();
 
         mockMvc.perform(post("/api/v1/patients")
@@ -301,6 +306,7 @@ public class Phase01VerificationTest {
             .gender(Gender.MALE)
             .phoneNumber("555-111-2222")
             .email("complete@example.com")
+            .photoIdVerified(true)
             .emergencyContacts(List.of(
                 EmergencyContactDto.builder()
                     .name("Emergency Contact")
@@ -362,6 +368,7 @@ public class Phase01VerificationTest {
             .dateOfBirth(LocalDate.of(1995, 7, 20))
             .gender(Gender.FEMALE)
             .phoneNumber("555-777-8888")
+            .photoIdVerified(true)
             .build();
 
         // RECEPTIONIST can register (write access)
@@ -415,6 +422,7 @@ public class Phase01VerificationTest {
             .dateOfBirth(LocalDate.of(1988, 4, 1))
             .gender(Gender.MALE)
             .phoneNumber("555-111-9999")
+            .photoIdVerified(true)
             .build();
 
         mockMvc.perform(post("/api/v1/patients")

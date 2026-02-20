@@ -60,6 +60,7 @@ public class PatientService {
             .city(request.getCity())
             .state(request.getState())
             .zipCode(request.getZipCode())
+            .photoIdVerified(request.getPhotoIdVerified())
             .status(PatientStatus.ACTIVE)
             .build();
 
