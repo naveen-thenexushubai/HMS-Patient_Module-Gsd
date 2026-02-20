@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 4 (Patient Updates & Status Management)
-Plan: 4 of 5 in current phase
+Plan: 5 of 5 in current phase
 Status: In Progress
-Last activity: 2026-02-20 — Completed Plan 02-03: Patient Update Service (PUT + PATCH /status endpoints)
+Last activity: 2026-02-20 — Completed Plan 02-04: Insurance CRUD API (GET/POST/PUT /insurance endpoints)
 
-Progress: [██████████████████████████████░] 61%
+Progress: [████████████████████████████████] 64%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 21 minutes
-- Total execution time: 3.60 hours
+- Total plans completed: 12
+- Average duration: 20 minutes
+- Total execution time: 3.63 hours
 
 **By Phase:**
 
@@ -29,7 +29,7 @@ Progress: [███████████████████████
 |-------|-------|-------|----------|
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
 | 01 - Patient Registration & Search | 5 | 155 min | 31 min |
-| 02 - Patient Updates & Status Management | 3 | 11 min | 4 min |
+| 02 - Patient Updates & Status Management | 4 | 13 min | 3 min |
 
 **Recent Trend:**
 - Last 5 plans: 5 min, 114 min, 15 min, 6 min, 2 min
@@ -46,6 +46,7 @@ Progress: [███████████████████████
 | Phase 02-patient-updates-status-management P01 | 6 | 2 tasks | 9 files |
 | Phase 02-patient-updates-status-management P02 | 3 | 2 tasks | 8 files |
 | Phase 02-patient-updates-status-management P03 | 2 | 2 tasks | 2 files |
+| Phase 02-patient-updates-status-management P04 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,7 @@ Recent decisions affecting current work:
 - [Phase 02-03]: toDetailResponse() uses findFirstVersionByBusinessId for registeredAt/registeredBy — multi-version patients show correct registration date
 - [Phase 02-03]: changePatientStatus() is idempotent — same-status requests return current state without inserting new version
 - [Phase 02-03]: PATCH /status endpoint requires hasRole('ADMIN') AND hasPermission write — ADMIN-only access enforced at two levels
+- [Phase 02-04]: POST /insurance deactivates existing active record and inserts new (single-active-record semantics); PUT modifies active record in-place; EntityNotFoundException handler added to GlobalExceptionHandler for 404 on missing active insurance
 
 ### Pending Todos
 
@@ -108,11 +110,12 @@ None yet.
 - Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
 - Phase 2 Plan 02 complete: UpdatePatientRequest, UpdateStatusRequest, InsuranceDto DTOs + EmergencyContact CRUD API ✅
 - Phase 2 Plan 03 complete: PUT /patients/{businessId} + PATCH /patients/{businessId}/status with PatientUpdatedEvent ✅
-- Next: Phase 2 Plan 04 (Insurance API)
+- Phase 2 Plan 04 complete: Insurance CRUD API (GET/POST/PUT /api/v1/patients/{businessId}/insurance), PatientDetailResponse with insuranceInfo ✅
+- Next: Phase 2 Plan 05 (final plan in phase 2)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-03-PLAN.md (Patient Update Service - PUT + PATCH /status endpoints)
-Resume file: .planning/phases/02-patient-updates-status-management/02-03-SUMMARY.md
-Next action: Execute Phase 2 Plan 04 (Insurance API)
+Stopped at: Completed 02-04-PLAN.md (Insurance CRUD API - GET/POST/PUT /insurance endpoints)
+Resume file: .planning/phases/02-patient-updates-status-management/02-04-SUMMARY.md
+Next action: Execute Phase 2 Plan 05

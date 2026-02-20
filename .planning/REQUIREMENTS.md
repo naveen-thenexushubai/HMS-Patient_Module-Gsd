@@ -88,8 +88,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **INS-01**: Receptionist can capture insurance information (provider, policy number, group number, coverage type)
 - [x] **INS-02**: System validates insurance policy number format
 - [x] **INS-03**: System stores insurance as part of patient record
-- [ ] **INS-04**: Staff can view insurance information on patient profile
-- [ ] **INS-05**: Receptionist/Admin can update insurance information with audit trail
+- [x] **INS-04**: Staff can view insurance information on patient profile
+- [x] **INS-05**: Receptionist/Admin can update insurance information with audit trail
 
 ### Emergency Contacts
 
@@ -217,8 +217,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INS-01 | Phase 2 | Complete |
 | INS-02 | Phase 2 | Complete |
 | INS-03 | Phase 2 | Complete |
-| INS-04 | Phase 2 | Pending |
-| INS-05 | Phase 2 | Pending |
+| INS-04 | Phase 2 | Complete |
+| INS-05 | Phase 2 | Complete |
 | EMR-01 | Phase 2 | Complete |
 | EMR-02 | Phase 2 | Complete |
 | EMR-03 | Phase 2 | Complete |
