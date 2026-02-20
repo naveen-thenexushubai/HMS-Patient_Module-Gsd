@@ -17,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
@@ -202,6 +203,47 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/not-found"));
         problemDetail.setProperty("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    /**
+     * Handle file upload size exceeded errors (SC2 - photo upload size limit).
+     * MaxUploadSizeExceededException is thrown by DispatcherServlet filter chain BEFORE
+     * the controller method is reached when upload exceeds spring.servlet.multipart.max-file-size.
+     * Without this handler, the exception becomes a 500 error. RFC 7807 400 is correct response.
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ProblemDetail> handleMaxUploadSize(
+        MaxUploadSizeExceededException ex,
+        WebRequest request
+    ) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST,
+            "Uploaded file exceeds the maximum allowed size of 5MB. Please reduce the file size and try again."
+        );
+        problemDetail.setTitle("File Too Large");
+        problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/file-too-large"));
+        problemDetail.setProperty("maxFileSizeMB", 5);
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
+
+    /**
+     * Handle invalid file arguments (invalid content type, non-image file, path traversal).
+     * Thrown by FileStorageService.store() with descriptive messages.
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ProblemDetail> handleIllegalArgument(
+        IllegalArgumentException ex,
+        WebRequest request
+    ) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST,
+            ex.getMessage()
+        );
+        problemDetail.setTitle("Invalid Request");
+        problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/invalid-request"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
 
     /**
