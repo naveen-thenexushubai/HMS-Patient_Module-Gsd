@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Centralized, secure, and efficient patient information management that serves as the foundation for all other hospital modules
-**Current focus:** Phase 3 - Patient Appointment & Scheduling
+**Current focus:** Phase 3 - Operational Enhancements
 
 ## Current Position
 
-Phase: 2 of 4 (Patient Updates & Status Management)
-Plan: 5 of 5 in current phase
-Status: Complete
-Last activity: 2026-02-20 — Completed Plan 02-05: Phase 2 Verification Tests (16 integration tests, all Phase 2 criteria verified)
+Phase: 3 of 4 (Operational Enhancements)
+Plan: 1 of 5 in current phase
+Status: In Progress
+Last activity: 2026-02-20 — Completed Plan 03-01: Phase 3 Infrastructure Foundation (V006/V007 migrations, FileStorageService, CacheConfig, SmartFormProperties)
 
 Progress: [████████████████████████████████████████] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 18 minutes
-- Total execution time: 3.78 hours
+- Total plans completed: 14
+- Average duration: 17 minutes
+- Total execution time: 3.81 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [███████████████████████
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
 | 01 - Patient Registration & Search | 5 | 155 min | 31 min |
 | 02 - Patient Updates & Status Management | 5 | 22 min | 4 min |
+| 03 - Operational Enhancements | 1 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 114 min, 15 min, 6 min, 2 min, 9 min
-- Trend: Phase 2 complete in 22 min total — well-established patterns, fast execution
+- Last 5 plans: 15 min, 6 min, 2 min, 9 min, 2 min
+- Trend: Phase 3 started with infrastructure plan in 2 min — established patterns carry forward
 
 *Updated after each plan completion*
 | Phase 01 P01 | 9 | 2 tasks | 14 files |
@@ -48,6 +49,7 @@ Progress: [███████████████████████
 | Phase 02-patient-updates-status-management P03 | 2 | 2 tasks | 2 files |
 | Phase 02-patient-updates-status-management P04 | 2 | 2 tasks | 5 files |
 | Phase 02-patient-updates-status-management P05 | 9 | 1 tasks | 3 files |
+| Phase 03-operational-enhancements P01 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -100,6 +102,11 @@ Recent decisions affecting current work:
 - [Phase 02-04]: POST /insurance deactivates existing active record and inserts new (single-active-record semantics); PUT modifies active record in-place; EntityNotFoundException handler added to GlobalExceptionHandler for 404 on missing active insurance
 - [Phase 02-patient-updates-status-management]: V005 drops idx_patients_unique_identity: constraint incompatible with event-sourced INSERT pattern for status re-activation; duplicate detection handled at application layer
 - [Phase 02-patient-updates-status-management]: EmergencyContactService.addContact() required createdBy from SecurityContext — NOT NULL constraint fix in standalone endpoint path
+- [Plan 03-01]: No FK from patient_photos.patient_business_id to patients — event-sourced pattern, business_id repeats across versions
+- [Plan 03-01]: V007 DEFAULT true on is_registration_complete — existing rows treated as complete without data migration
+- [Plan 03-01]: @EnableCaching on CacheConfig only, not HospitalApplication — avoids duplicate startup warning
+- [Plan 03-01]: RestTemplate declared as @Bean — Spring Boot 3 does not auto-configure RestTemplate
+- [Plan 03-01]: FileStorageService uses constructor @Value injection for early storage directory creation at bean init time
 
 ### Pending Todos
 
@@ -107,19 +114,16 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 2 Complete:**
-- Phase 0 complete: 26/26 security tests passing ✅
-- Phase 1 complete (all 7 plans including gap closures) ✅
-- Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
-- Phase 2 Plan 02 complete: UpdatePatientRequest, UpdateStatusRequest, InsuranceDto DTOs + EmergencyContact CRUD API ✅
-- Phase 2 Plan 03 complete: PUT /patients/{businessId} + PATCH /patients/{businessId}/status with PatientUpdatedEvent ✅
-- Phase 2 Plan 04 complete: Insurance CRUD API (GET/POST/PUT /api/v1/patients/{businessId}/insurance), PatientDetailResponse with insuranceInfo ✅
-- Phase 2 Plan 05 complete: 16 integration tests - all Phase 2 success criteria verified ✅
-- Next: Phase 3 - Patient Appointment & Scheduling
+**Phase 3 In Progress:**
+- Phase 0 complete: 26/26 security tests passing
+- Phase 1 complete (all 7 plans including gap closures)
+- Phase 2 complete: 16 integration tests, all Phase 2 success criteria verified
+- Phase 3 Plan 01 complete: Infrastructure foundation (V006/V007 migrations, FileStorageService, CacheConfig, SmartFormProperties, RestTemplateConfig)
+- Next: Phase 3 Plan 02 (Quick Registration)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-05-PLAN.md (Phase 2 Verification Tests — 16 integration tests, Phase 2 COMPLETE)
-Resume file: .planning/phases/02-patient-updates-status-management/02-05-SUMMARY.md
-Next action: Execute Phase 3 Plan 01
+Stopped at: Completed 03-01-PLAN.md (Phase 3 Infrastructure Foundation — V006/V007 migrations, FileStorageService, CacheConfig, SmartFormProperties)
+Resume file: .planning/phases/03-operational-enhancements/03-01-SUMMARY.md
+Next action: Execute Phase 3 Plan 02
