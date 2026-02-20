@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 1 of 4 (Patient Registration & Search)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-19 — Completed Plan 01-03: Patient Search API
+Last activity: 2026-02-20 — Completed Plan 01-04: PatientPermissionEvaluator Authorization Rules
 
-Progress: [███████████████░░░░░░░░░░░░░░░] 30%
+Progress: [████████████████████░░░░░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -28,7 +28,7 @@ Progress: [███████████████░░░░░░░░
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
-| 01 - Patient Registration & Search | 3 | 138 min | 46 min |
+| 01 - Patient Registration & Search | 4 | 143 min | 36 min |
 
 **Recent Trend:**
 - Last 5 plans: 0 min (verification), 17 min, 9 min, 15 min, 114 min
@@ -38,6 +38,7 @@ Progress: [███████████████░░░░░░░░
 | Phase 01 P01 | 9 | 2 tasks | 14 files |
 | Phase 01 P02 | 15 | 2 tasks | 15 files |
 | Phase 01 P03 | 114 | 2 tasks | 6 files |
+| Phase 01-patient-registration-search P04 | 5 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Custom IdentifierGenerator implementation for P2026XXXXX format with String IDs
 - Plan 01-03: Use JPQL LIKE queries instead of Hibernate Search for Phase 1 search - indexing not working in @DataJpaTest context despite 7 fix attempts
 - Plan 01-03: JPQL search acceptable for Phase 1 scale (<10K patients, <100ms queries)
+- [Phase 01-04]: DOCTOR read-only in Phase 1 (Phase 2 will add patient_assignments table check)
+- [Phase 01-04]: PatientPermissionEvaluator first overload defaults to Patient type (evaluator is Patient-scoped)
+- [Phase 01-04]: NURSE read-only in Phase 1 (Phase 2 will add care_team table check)
 
 ### Pending Todos
 
@@ -81,13 +85,13 @@ None yet.
 - Phase 1 Plan 01 complete: Event-sourced patient data foundation ✅
 - Phase 1 Plan 02 complete: Patient registration API with duplicate detection ✅
 - Phase 1 Plan 03 complete: Patient search API with JPQL queries ✅
-- 10/10 PatientSearchRepositoryTest passing ✅
-- 9/9 PatientControllerIntegrationTest passing ✅
-- Next: Patient Duplicate Detection (Plan 01-04)
+- Phase 1 Plan 04 complete: PatientPermissionEvaluator authorization rules ✅
+- 21/21 PatientPermissionEvaluatorTest (unit) passing ✅
+- Next: Plan 01-05 (final plan in Phase 1)
 
 ## Session Continuity
 
-Last session: 2026-02-19
-Stopped at: Completed 01-03-PLAN.md (Patient Search API)
-Resume file: .planning/phases/01-patient-registration-search/01-03-SUMMARY.md
-Next action: Execute Plan 01-04 (Patient Duplicate Detection)
+Last session: 2026-02-20
+Stopped at: Completed 01-04-PLAN.md (PatientPermissionEvaluator Authorization Rules)
+Resume file: .planning/phases/01-patient-registration-search/01-04-SUMMARY.md
+Next action: Execute Plan 01-05 (final plan in Phase 1)

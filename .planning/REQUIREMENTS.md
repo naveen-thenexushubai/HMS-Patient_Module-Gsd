@@ -52,12 +52,12 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **PROF-01**: Staff can view complete patient demographics (Patient ID, name, DOB, age, gender, phone, email, address)
 - [x] **PROF-02**: Staff can view patient emergency contact information (name, phone, relationship)
 - [x] **PROF-03**: Staff can view patient medical information (blood group, known allergies, chronic conditions)
-- [ ] **PROF-04**: System displays patient status with color coding (green=active, red=inactive)
+- [x] **PROF-04**: System displays patient status with color coding (green=active, red=inactive)
 - [x] **PROF-05**: System displays patient registration date and registered-by user
 - [x] **PROF-06**: System displays patient last-updated date and updated-by user
-- [ ] **PROF-07**: System shows "Edit Patient" button only to users with edit permissions (Receptionist, Admin)
-- [ ] **PROF-08**: System hides "Edit Patient" button from read-only users (Doctor, Nurse)
-- [ ] **PROF-09**: Staff can navigate from patient profile back to patient list
+- [x] **PROF-07**: System shows "Edit Patient" button only to users with edit permissions (Receptionist, Admin)
+- [x] **PROF-08**: System hides "Edit Patient" button from read-only users (Doctor, Nurse)
+- [x] **PROF-09**: Staff can navigate from patient profile back to patient list
 
 ### Patient Information Update
 
@@ -190,12 +190,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
 | PROF-03 | Phase 1 | Complete |
-| PROF-04 | Phase 1 | Pending |
+| PROF-04 | Phase 1 | Complete |
 | PROF-05 | Phase 1 | Complete |
 | PROF-06 | Phase 1 | Complete |
-| PROF-07 | Phase 1 | Pending |
-| PROF-08 | Phase 1 | Pending |
-| PROF-09 | Phase 1 | Pending |
+| PROF-07 | Phase 1 | Complete |
+| PROF-08 | Phase 1 | Complete |
+| PROF-09 | Phase 1 | Complete |
 | UPD-01 | Phase 2 | Pending |
 | UPD-02 | Phase 2 | Pending |
 | UPD-03 | Phase 2 | Pending |
