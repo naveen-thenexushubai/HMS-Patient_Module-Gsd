@@ -7,6 +7,8 @@ import com.hospital.patient.infrastructure.EmergencyContactRepository;
 import com.hospital.patient.infrastructure.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,18 @@ public class EmergencyContactService {
     private PatientRepository patientRepository;
 
     /**
+     * Get the current authenticated username from Spring Security context.
+     */
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()
+                && !authentication.getPrincipal().equals("anonymousUser")) {
+            return authentication.getName();
+        }
+        return "system";
+    }
+
+    /**
      * Add a new emergency contact for a patient.
      * Validates that the patient exists (latest version found by businessId).
      */
@@ -39,6 +53,7 @@ public class EmergencyContactService {
             .phoneNumber(dto.getPhoneNumber())
             .relationship(dto.getRelationship())
             .isPrimary(dto.getIsPrimary() != null ? dto.getIsPrimary() : false)
+            .createdBy(getCurrentUsername())
             .build();
 
         EmergencyContact saved = emergencyContactRepository.save(contact);
