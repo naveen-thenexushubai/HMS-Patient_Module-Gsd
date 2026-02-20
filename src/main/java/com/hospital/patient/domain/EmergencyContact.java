@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -14,6 +17,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "emergency_contacts")
+@EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder
 @NoArgsConstructor
@@ -44,6 +48,14 @@ public class EmergencyContact {
 
     @Column(name = "created_by", nullable = false, updatable = false, length = 255)
     private String createdBy;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private Instant updatedAt;
+
+    @LastModifiedBy
+    @Column(name = "updated_by", length = 255)
+    private String updatedBy;
 
     @PrePersist
     protected void onCreate() {

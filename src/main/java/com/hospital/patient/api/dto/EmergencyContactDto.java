@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmergencyContactDto {
+    // Response-only: populated on response, null on request
+    private Long id;
+
     @NotBlank(message = "Emergency contact name is required")
     @Size(max = 100, message = "Name must not exceed 100 characters")
     private String name;
