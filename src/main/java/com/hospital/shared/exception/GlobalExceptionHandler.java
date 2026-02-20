@@ -4,6 +4,7 @@ import com.hospital.patient.application.DuplicateDetectionService.DuplicateMatch
 import com.hospital.patient.domain.Patient;
 import com.hospital.patient.exception.DuplicatePatientException;
 import com.hospital.patient.exception.PatientNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -151,6 +152,37 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problemDetail);
+    }
+
+    /**
+     * Handle concurrent patient version conflicts.
+     * The patients table has UNIQUE(business_id, version) constraint (uk_patients_business_version).
+     * When two simultaneous updates increment to the same version number, the second insert
+     * violates this constraint. Return 409 Conflict with a human-readable message.
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ProblemDetail> handleDataIntegrityViolation(
+        DataIntegrityViolationException ex,
+        WebRequest request
+    ) {
+        if (ex.getMessage() != null && ex.getMessage().contains("uk_patients_business_version")) {
+            ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                "Patient was updated concurrently. Please reload the patient profile and try again."
+            );
+            problemDetail.setTitle("Concurrent Update Conflict");
+            problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/concurrent-update"));
+            problemDetail.setProperty("timestamp", Instant.now());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+        }
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.CONFLICT, "Data integrity constraint violated"
+        );
+        problemDetail.setTitle("Data Conflict");
+        problemDetail.setType(URI.create(PROBLEM_BASE_URL + "/conflict"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
     }
 
     /**

@@ -75,4 +75,25 @@ public interface PatientRepository extends JpaRepository<Patient, String> {
      * Note: patient_id is unique across all versions, so this returns single result.
      */
     Optional<Patient> findByPatientId(String patientId);
+
+    /**
+     * Find the maximum (latest) version number for a patient businessId.
+     * Used to compute the next version number when inserting a new patient version.
+     * Returns empty Optional if businessId not found.
+     */
+    @Query("SELECT MAX(p.version) FROM Patient p WHERE p.businessId = :businessId")
+    Optional<Long> findMaxVersionByBusinessId(@Param("businessId") UUID businessId);
+
+    /**
+     * Find the original version-1 row for a patient by businessId.
+     * Used to retrieve registeredAt and registeredBy from the original registration record.
+     * Uses native SQL with ORDER BY version ASC LIMIT 1.
+     */
+    @Query(value = """
+        SELECT p.* FROM patients p
+        WHERE p.business_id = :businessId
+        ORDER BY p.version ASC
+        LIMIT 1
+        """, nativeQuery = true)
+    Optional<Patient> findFirstVersionByBusinessId(@Param("businessId") UUID businessId);
 }
