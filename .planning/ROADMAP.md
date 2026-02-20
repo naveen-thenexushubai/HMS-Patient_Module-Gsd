@@ -13,7 +13,7 @@ This roadmap delivers a HIPAA-compliant patient management system serving as the
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [▶] **Phase 0: Security & Compliance Foundation** - HIPAA infrastructure and audit logging before any patient data (1/5 complete)
-- [x] **Phase 1: Patient Registration & Search** - Core demographic registration with duplicate detection and search (completed 2026-02-20)
+- [▶] **Phase 1: Patient Registration & Search** - Core demographic registration with duplicate detection and search (gap closure in progress)
 - [ ] **Phase 2: Patient Updates & Status Management** - Profile updates, status changes, insurance, emergency contacts
 - [ ] **Phase 3: Operational Enhancements** - Quick registration, photo capture, data quality dashboard
 - [ ] **Phase 4: Advanced Features & Integration** - Family linking, QR codes, phonetic search, FHIR adapter
@@ -50,14 +50,16 @@ Plans:
   4. Staff can filter patient list by status (Active/Inactive), gender, and blood group with paginated results (20 per page)
   5. Staff can view complete patient profile including demographics, emergency contacts, medical info, and registration audit trail
   6. Edit Patient button appears only for Receptionist/Admin users (hidden from Doctor/Nurse)
-**Plans**: 5 plans in 4 waves
+**Plans**: 7 plans in 4 waves (includes 2 gap closure plans)
 
 Plans:
-- [ ] 01-01-PLAN.md — Database schema with event-sourced Patient entity, custom P2026XXX ID generator, and normalized emergency contacts/medical history
-- [ ] 01-02-PLAN.md — Patient registration API with multi-field fuzzy duplicate detection (Levenshtein + Soundex) and phone/email validation
-- [ ] 01-03-PLAN.md — Hibernate Search with Lucene backend for full-text patient search with fuzzy matching and Slice-based pagination
-- [ ] 01-04-PLAN.md — Patient profile view with refined PatientPermissionEvaluator (role-based edit permissions) and related data repositories
-- [ ] 01-05-PLAN.md — RFC 7807 Problem Details error handling and Phase 1 verification tests (all 6 success criteria)
+- [x] 01-01-PLAN.md — Database schema with event-sourced Patient entity, custom P2026XXX ID generator, and normalized emergency contacts/medical history
+- [x] 01-02-PLAN.md — Patient registration API with multi-field fuzzy duplicate detection (Levenshtein + Soundex) and phone/email validation
+- [x] 01-03-PLAN.md — Hibernate Search with Lucene backend for full-text patient search with fuzzy matching and Slice-based pagination
+- [x] 01-04-PLAN.md — Patient profile view with refined PatientPermissionEvaluator (role-based edit permissions) and related data repositories
+- [x] 01-05-PLAN.md — RFC 7807 Problem Details error handling and Phase 1 verification tests (all 6 success criteria)
+- [ ] 01-06-PLAN.md — GAP CLOSURE: Fuzzy name matching second pass in search endpoint (SRCH-04)
+- [ ] 01-07-PLAN.md — GAP CLOSURE: Photo ID verification enforcement in registration API (REG-12)
 
 ### Phase 2: Patient Updates & Status Management
 **Goal**: Staff can update patient information, manage patient status (active/inactive), and maintain insurance and emergency contact records with full audit trail
@@ -112,7 +114,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
-| 1. Patient Registration & Search | 5/5 | Complete   | 2026-02-20 |
+| 1. Patient Registration & Search | 5/7 | Gap closure in progress | 2026-02-20 |
 | 2. Patient Updates & Status Management | 0/? | Not started | - |
 | 3. Operational Enhancements | 0/? | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |
