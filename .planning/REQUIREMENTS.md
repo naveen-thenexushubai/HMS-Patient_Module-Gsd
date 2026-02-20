@@ -67,10 +67,10 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UPD-04**: System makes registration date read-only (cannot be edited)
 - [ ] **UPD-05**: System applies same validation rules as registration to updates
 - [ ] **UPD-06**: System saves patient updates and displays success message
-- [ ] **UPD-07**: System records update timestamp and user who made the update
+- [x] **UPD-07**: System records update timestamp and user who made the update
 - [ ] **UPD-08**: System discards changes on Cancel and returns to profile view
 - [ ] **UPD-09**: System displays specific validation error messages for invalid fields on update
-- [ ] **UPD-10**: System publishes PatientUpdated event to message broker after successful update
+- [x] **UPD-10**: System publishes PatientUpdated event to message broker after successful update
 
 ### Patient Status Management
 
@@ -78,16 +78,16 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **STAT-02**: Admin can activate inactive patient without confirmation
 - [ ] **STAT-03**: System changes patient status to "INACTIVE" on deactivation
 - [ ] **STAT-04**: System changes patient status to "ACTIVE" on activation
-- [ ] **STAT-05**: System records status change timestamp and user who made the change
+- [x] **STAT-05**: System records status change timestamp and user who made the change
 - [ ] **STAT-06**: System displays success message after status change
 - [ ] **STAT-07**: System excludes inactive patients from "Active" filter view
 - [ ] **STAT-08**: System includes both active and inactive patients in "All" filter view with status indicators
 
 ### Insurance Management
 
-- [ ] **INS-01**: Receptionist can capture insurance information (provider, policy number, group number, coverage type)
-- [ ] **INS-02**: System validates insurance policy number format
-- [ ] **INS-03**: System stores insurance as part of patient record
+- [x] **INS-01**: Receptionist can capture insurance information (provider, policy number, group number, coverage type)
+- [x] **INS-02**: System validates insurance policy number format
+- [x] **INS-03**: System stores insurance as part of patient record
 - [ ] **INS-04**: Staff can view insurance information on patient profile
 - [ ] **INS-05**: Receptionist/Admin can update insurance information with audit trail
 
@@ -202,21 +202,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UPD-04 | Phase 2 | Pending |
 | UPD-05 | Phase 2 | Pending |
 | UPD-06 | Phase 2 | Pending |
-| UPD-07 | Phase 2 | Pending |
+| UPD-07 | Phase 2 | Complete |
 | UPD-08 | Phase 2 | Pending |
 | UPD-09 | Phase 2 | Pending |
-| UPD-10 | Phase 2 | Pending |
+| UPD-10 | Phase 2 | Complete |
 | STAT-01 | Phase 2 | Pending |
 | STAT-02 | Phase 2 | Pending |
 | STAT-03 | Phase 2 | Pending |
 | STAT-04 | Phase 2 | Pending |
-| STAT-05 | Phase 2 | Pending |
+| STAT-05 | Phase 2 | Complete |
 | STAT-06 | Phase 2 | Pending |
 | STAT-07 | Phase 2 | Pending |
 | STAT-08 | Phase 2 | Pending |
-| INS-01 | Phase 2 | Pending |
-| INS-02 | Phase 2 | Pending |
-| INS-03 | Phase 2 | Pending |
+| INS-01 | Phase 2 | Complete |
+| INS-02 | Phase 2 | Complete |
+| INS-03 | Phase 2 | Complete |
 | INS-04 | Phase 2 | Pending |
 | INS-05 | Phase 2 | Pending |
 | EMR-01 | Phase 2 | Pending |

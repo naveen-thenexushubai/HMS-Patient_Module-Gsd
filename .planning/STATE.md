@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Centralized, secure, and efficient patient information management that serves as the foundation for all other hospital modules
-**Current focus:** Phase 1 - Patient Registration & Search
+**Current focus:** Phase 2 - Patient Updates & Status Management
 
 ## Current Position
 
-Phase: 1 of 4 (Patient Registration & Search)
-Plan: 5 of 5 in current phase
-Status: Phase 1 Complete - advancing to Phase 2
-Last activity: 2026-02-20 — Completed Plan 01-07: REG-12 Gap Closure (photoIdVerified enforcement)
+Phase: 2 of 4 (Patient Updates & Status Management)
+Plan: 2 of 5 in current phase
+Status: In Progress
+Last activity: 2026-02-20 — Completed Plan 02-01: Phase 2 Infrastructure Foundation (insurance schema, event pipeline, 409 handler)
 
-Progress: [████████████████████████░░░░░░] 50%
+Progress: [█████████████████████████████░] 58%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 25 minutes
-- Total execution time: 3.43 hours
+- Total plans completed: 10
+- Average duration: 23 minutes
+- Total execution time: 3.57 hours
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [███████████████████████
 |-------|-------|-------|----------|
 | 00 - Security & Compliance Foundation | 6 | 68 min | 11 min |
 | 01 - Patient Registration & Search | 5 | 155 min | 31 min |
+| 02 - Patient Updates & Status Management | 1 | 6 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 12 min, 5 min, 114 min, 15 min, 9 min
-- Trend: Plan 01-05 efficient (12 min) - exception handler + 8 verification tests
+- Last 5 plans: 12 min, 5 min, 114 min, 15 min, 6 min
+- Trend: Phase 2 Plan 01 very fast (6 min) - infrastructure/scaffolding with clear spec
 
 *Updated after each plan completion*
 | Phase 01 P01 | 9 | 2 tasks | 14 files |
@@ -42,6 +43,7 @@ Progress: [███████████████████████
 | Phase 01-patient-registration-search P05 | 12 | 2 tasks | 5 files |
 | Phase 01-patient-registration-search P06 | 4 | 2 tasks | 2 files |
 | Phase 01-patient-registration-search P07 | 8 | 2 tasks | 4 files |
+| Phase 02-patient-updates-status-management P01 | 6 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -80,6 +82,11 @@ Recent decisions affecting current work:
 - [Phase 01-patient-registration-search]: Plan 01-06: maxEditDistance=2 for Levenshtein fuzzy search (1-char edit catches Jon/John and Smyth/Smith; in-memory pass safe for Phase 1 <10K scale)
 - [Phase 01-07]: @AssertTrue on Boolean (not boolean primitive) for photoIdVerified so @NotNull catches null and @AssertTrue catches false separately
 - [Phase 01-07]: REG-12 satisfied for Phase 1 via API flag enforcement only; no file upload/storage - scan/upload UI is Phase 3 concern
+- [Phase 02-01]: VARCHAR(512) for encrypted PHI columns (policy_number, group_number) — accommodates AES-256-GCM ciphertext + 12-byte IV + base64 overhead
+- [Phase 02-01]: No @Index on encrypted insurance columns — SensitiveDataConverter uses random IV per encryption, ciphertext is non-deterministic
+- [Phase 02-01]: No FK from insurance to patients — event-sourced pattern: business_id repeats across versions
+- [Phase 02-01]: @TransactionalEventListener(AFTER_COMMIT) over @EventListener — guarantees new patient row committed before listener fires
+- [Phase 02-01]: @EnableAsync added to HospitalApplication for non-blocking @Async listener execution
 
 ### Pending Todos
 
@@ -87,23 +94,15 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 1 Complete (including gap closure):**
+**Phase 2 In Progress:**
 - Phase 0 complete: 26/26 security tests passing ✅
-- Phase 1 Plan 01 complete: Event-sourced patient data foundation ✅
-- Phase 1 Plan 02 complete: Patient registration API with duplicate detection ✅
-- Phase 1 Plan 03 complete: Patient search API with JPQL queries ✅
-- Phase 1 Plan 04 complete: PatientPermissionEvaluator authorization rules ✅
-- Phase 1 Plan 05 complete: RFC 7807 error handling + Phase 1 verification ✅
-- Phase 1 Plan 06 complete: Fuzzy name matching gap closure (SRCH-04) ✅
-- Phase 1 Plan 07 complete: REG-12 gap closure (photoIdVerified enforcement at registration) ✅
-- 13/13 PatientSearchRepositoryTest passing; 11/11 Phase01VerificationTest passing (24/24 combined)
-- SRCH-04 closed: "Jon" finds "John", "Smyth" finds "Smith" via Levenshtein edit-distance 2
-- REG-12 closed: POST /api/v1/patients with photoIdVerified=false/null returns 400; with true returns 201
-- Next: Phase 2 (Patient Management - edit, status changes)
+- Phase 1 complete (all 7 plans including gap closures) ✅
+- Phase 2 Plan 01 complete: Insurance schema, event pipeline, 409 handler ✅
+- Next: Phase 2 Plan 02 (patient update DTOs + emergency contacts)
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 01-07-PLAN.md (REG-12 Gap Closure - photoIdVerified enforcement at registration)
-Resume file: .planning/phases/01-patient-registration-search/01-07-SUMMARY.md
-Next action: Begin Phase 2 (Patient Management - edit, status changes)
+Stopped at: Completed 02-01-PLAN.md (Phase 2 Infrastructure Foundation)
+Resume file: .planning/phases/02-patient-updates-status-management/02-01-SUMMARY.md
+Next action: Execute Phase 2 Plan 02 (Patient Update DTOs + Emergency Contact management)
