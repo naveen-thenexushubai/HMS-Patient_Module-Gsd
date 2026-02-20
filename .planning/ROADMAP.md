@@ -90,10 +90,15 @@ Plans:
   2. Receptionist can capture patient photo at registration desk via webcam integration
   3. Receptionist can view data quality dashboard showing incomplete records, missing insurance, and pending ID verification
   4. Registration forms auto-complete ZIP code to city/state and suggest insurance plans to reduce data entry time
-**Plans**: TBD
+**Plans**: 6 plans in 3 waves
 
 Plans:
-- [ ] 03-01: TBD during planning
+- [ ] 03-01-PLAN.md — Infrastructure: Caffeine cache deps, V006 patient_photos migration, V007 is_registration_complete migration, FileStorageService, RestTemplateConfig, CacheConfig, SmartFormProperties, application.yml multipart/storage/smart-form config
+- [ ] 03-02-PLAN.md — Quick registration: QuickRegisterRequest DTO, Patient entity isRegistrationComplete field, QuickRegistrationService, QuickRegistrationController (POST /api/v1/patients/quick), PatientDetailResponse and UpdatePatientRequest extensions
+- [ ] 03-03-PLAN.md — Photo upload: PatientPhoto entity, PatientPhotoRepository, PhotoService, PhotoController (POST/GET /api/v1/patients/{id}/photo), MaxUploadSizeExceededException and IllegalArgumentException handlers in GlobalExceptionHandler
+- [ ] 03-04-PLAN.md — Data quality dashboard: DataQualityReport DTO, DataQualityRepository (5 nativeQuery COUNT queries against patients_latest), DataQualityService, DataQualityController (GET /api/v1/admin/data-quality, ADMIN-only)
+- [ ] 03-05-PLAN.md — Smart forms: ZipLookupResponse DTO, ZipLookupService (@Cacheable Zippopotam.us), InsuranceSuggestionService, SmartFormController (GET /api/v1/smart-form/zip/{zip} + GET /api/v1/smart-form/insurance-plans)
+- [ ] 03-06-PLAN.md — Phase 3 verification tests covering all 4 success criteria with MockMvc integration tests
 
 ### Phase 4: Advanced Features & Integration
 **Goal**: Enable family linking, QR code patient lookup, phonetic search, relationship management, and optional FHIR integration for external EHR systems
@@ -120,5 +125,5 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4
 | 0. Security & Compliance Foundation | 6/6 | Complete   | 2026-02-19 |
 | 1. Patient Registration & Search | 7/7 | Complete   | 2026-02-20 |
 | 2. Patient Updates & Status Management | 5/5 | Complete   | 2026-02-20 |
-| 3. Operational Enhancements | 0/? | Not started | - |
+| 3. Operational Enhancements | 0/6 | Not started | - |
 | 4. Advanced Features & Integration | 0/? | Not started | - |
