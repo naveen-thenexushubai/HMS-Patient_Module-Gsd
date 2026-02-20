@@ -67,6 +67,7 @@ public class PatientService {
             .state(request.getState())
             .zipCode(request.getZipCode())
             .photoIdVerified(request.getPhotoIdVerified())
+            .isRegistrationComplete(true)   // Full registration: always complete
             .status(PatientStatus.ACTIVE)
             .build();
 
@@ -166,6 +167,12 @@ public class PatientService {
             .zipCode(request.getZipCode())
             .photoIdVerified(current.getPhotoIdVerified()) // PRESERVED — not in update form
             .status(current.getStatus())                   // PRESERVED — use /status endpoint to change
+            // isRegistrationComplete: use request value if explicitly set; else preserve current
+            .isRegistrationComplete(
+                request.getIsRegistrationComplete() != null
+                    ? request.getIsRegistrationComplete()
+                    : (current.getIsRegistrationComplete() != null ? current.getIsRegistrationComplete() : true)
+            )
             // createdAt, createdBy: set by AuditingEntityListener (@CreatedDate, @CreatedBy)
             .build();
 
@@ -218,6 +225,7 @@ public class PatientService {
             .state(current.getState())
             .zipCode(current.getZipCode())
             .photoIdVerified(current.getPhotoIdVerified())
+            .isRegistrationComplete(current.getIsRegistrationComplete() != null ? current.getIsRegistrationComplete() : true)  // Preserve on status change
             .status(newStatus)   // ONLY this field changes from current
             .build();
 
@@ -298,6 +306,7 @@ public class PatientService {
             .lastModifiedAt(patient.getCreatedAt())          // FROM LATEST VERSION
             .lastModifiedBy(patient.getCreatedBy())          // FROM LATEST VERSION
             .version(patient.getVersion())
+            .isRegistrationComplete(patient.getIsRegistrationComplete())
             .build();
     }
 }
