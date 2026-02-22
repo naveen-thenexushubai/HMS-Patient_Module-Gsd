@@ -30,6 +30,12 @@ public class DataQualityReport {
     /** Active patients where photoIdVerified = false (photo ID document not confirmed). */
     private long unverifiedPhotoIds;
 
+    /**
+     * Number of active insurance records with INCOMPLETE or STALE verification status.
+     * Populated from insurance.verification_status (added in V012 migration).
+     */
+    private long insuranceVerificationIssues;
+
     /** Timestamp when this report was generated. */
     private Instant generatedAt;
 }

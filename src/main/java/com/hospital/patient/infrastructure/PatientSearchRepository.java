@@ -7,6 +7,8 @@ import com.hospital.patient.domain.PatientStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import org.apache.commons.codec.language.Metaphone;
+import org.apache.commons.codec.language.Soundex;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -47,8 +49,10 @@ public class PatientSearchRepository {
         Pageable pageable
     ) {
         // Build JPQL query with dynamic predicates
+        // Only return the latest version of each patient (max patientId per businessId)
         StringBuilder jpql = new StringBuilder(
-            "SELECT p FROM Patient p WHERE 1=1"
+            "SELECT p FROM Patient p WHERE p.patientId IN " +
+            "(SELECT max(p2.patientId) FROM Patient p2 GROUP BY p2.businessId) AND 1=1"
         );
 
         List<String> predicates = new ArrayList<>();
@@ -148,6 +152,110 @@ public class PatientSearchRepository {
     }
 
     /**
+     * Phonetic search using Soundex and Metaphone encoding.
+     * Finds patients whose first or last name sounds like the query.
+     * Useful for finding "Johnson" when querying "Jonson", "Johnston", "Johnsen".
+     *
+     * Fetches all candidates (with optional status/gender/bloodGroup filters),
+     * then filters in-memory using phonetic encoding comparison.
+     *
+     * @param query Name to match phonetically
+     * @param status Optional status filter
+     * @param gender Optional gender filter
+     * @param bloodGroup Optional blood group filter
+     * @param pageable Pagination parameters
+     * @return Slice of phonetically matching patient summaries
+     */
+    public Slice<PatientSummaryResponse> phoneticSearch(
+        String query,
+        PatientStatus status,
+        Gender gender,
+        String bloodGroup,
+        Pageable pageable
+    ) {
+        // Fetch all candidates with filters (no name filter — phonetic matching done in-memory)
+        // Only return latest version of each patient
+        StringBuilder jpql = new StringBuilder(
+            "SELECT p FROM Patient p WHERE p.patientId IN " +
+            "(SELECT max(p2.patientId) FROM Patient p2 GROUP BY p2.businessId) AND 1=1"
+        );
+        List<String> predicates = new ArrayList<>();
+
+        if (status != null) predicates.add("p.status = :status");
+        if (gender != null) predicates.add("p.gender = :gender");
+        if (bloodGroup != null && !bloodGroup.isBlank()) {
+            predicates.add("p.businessId IN (SELECT mh.patientBusinessId FROM MedicalHistory mh WHERE mh.bloodGroup = :bloodGroup)");
+        }
+        for (String pred : predicates) jpql.append(" AND ").append(pred);
+        jpql.append(" ORDER BY p.lastName, p.firstName");
+
+        TypedQuery<Patient> tq = entityManager.createQuery(jpql.toString(), Patient.class);
+        if (status != null) tq.setParameter("status", status);
+        if (gender != null) tq.setParameter("gender", gender);
+        if (bloodGroup != null && !bloodGroup.isBlank()) tq.setParameter("bloodGroup", bloodGroup);
+
+        List<Patient> all = tq.getResultList();
+
+        // Phonetic encode the query using both Soundex and Metaphone
+        Soundex soundex = new Soundex();
+        Metaphone metaphone = new Metaphone();
+
+        String querySoundex = null;
+        String queryMetaphone = null;
+
+        if (query != null && !query.isBlank()) {
+            try { querySoundex = soundex.encode(query); } catch (Exception ignored) {}
+            try { queryMetaphone = metaphone.encode(query); } catch (Exception ignored) {}
+        }
+
+        final String finalQuerySoundex = querySoundex;
+        final String finalQueryMetaphone = queryMetaphone;
+
+        // Filter in-memory: keep patients whose name sounds like the query
+        List<Patient> matches = all.stream()
+            .filter(p -> {
+                if (finalQuerySoundex == null && finalQueryMetaphone == null) return true;
+                String firstSoundex = null, lastSoundex = null;
+                String firstMeta = null, lastMeta = null;
+                try { firstSoundex = soundex.encode(p.getFirstName()); } catch (Exception ignored) {}
+                try { lastSoundex = soundex.encode(p.getLastName()); } catch (Exception ignored) {}
+                try { firstMeta = metaphone.encode(p.getFirstName()); } catch (Exception ignored) {}
+                try { lastMeta = metaphone.encode(p.getLastName()); } catch (Exception ignored) {}
+
+                boolean soundexMatch = finalQuerySoundex != null && (
+                    finalQuerySoundex.equals(firstSoundex) || finalQuerySoundex.equals(lastSoundex)
+                );
+                boolean metaphoneMatch = finalQueryMetaphone != null && (
+                    finalQueryMetaphone.equals(firstMeta) || finalQueryMetaphone.equals(lastMeta)
+                );
+                return soundexMatch || metaphoneMatch;
+            })
+            .collect(Collectors.toList());
+
+        // Manual pagination
+        int offset = (int) pageable.getOffset();
+        int pageSize = pageable.getPageSize();
+
+        List<Patient> page;
+        boolean hasNext;
+        if (offset >= matches.size()) {
+            page = List.of();
+            hasNext = false;
+        } else {
+            int end = Math.min(offset + pageSize + 1, matches.size());
+            List<Patient> slice = new ArrayList<>(matches.subList(offset, end));
+            hasNext = slice.size() > pageSize;
+            page = hasNext ? slice.subList(0, pageSize) : slice;
+        }
+
+        List<PatientSummaryResponse> summaries = page.stream()
+            .map(this::toSummaryResponse)
+            .collect(Collectors.toList());
+
+        return new SliceImpl<>(summaries, pageable, hasNext);
+    }
+
+    /**
      * Returns true if the query looks like a name (no digits, no @ symbol, at least 2 chars).
      * This guards fuzzy matching from running on phone numbers, emails, or patient IDs.
      */
@@ -178,7 +286,11 @@ public class PatientSearchRepository {
         String bloodGroup,
         int maxEditDistance
     ) {
-        StringBuilder jpql = new StringBuilder("SELECT p FROM Patient p WHERE 1=1");
+        // Only return latest version of each patient
+        StringBuilder jpql = new StringBuilder(
+            "SELECT p FROM Patient p WHERE p.patientId IN " +
+            "(SELECT max(p2.patientId) FROM Patient p2 GROUP BY p2.businessId) AND 1=1"
+        );
         List<String> predicates = new ArrayList<>();
 
         if (status != null) predicates.add("p.status = :status");
@@ -217,6 +329,7 @@ public class PatientSearchRepository {
      */
     private PatientSummaryResponse toSummaryResponse(Patient patient) {
         return PatientSummaryResponse.builder()
+            .businessId(patient.getBusinessId())
             .patientId(patient.getPatientId())
             .fullName(patient.getFirstName() + " " + patient.getLastName())
             .age(patient.getAge())

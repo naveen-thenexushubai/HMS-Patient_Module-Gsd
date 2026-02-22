@@ -1,8 +1,11 @@
 package com.hospital.patient.application;
 
 import com.hospital.patient.api.dto.DataQualityReport;
+import com.hospital.patient.domain.InsuranceVerificationStatus;
 import com.hospital.patient.infrastructure.DataQualityRepository;
+import com.hospital.patient.infrastructure.InsuranceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,9 @@ public class DataQualityService {
     @Autowired
     private DataQualityRepository dataQualityRepository;
 
+    @Autowired
+    private InsuranceRepository insuranceRepository;
+
     /**
      * Generate a data quality report with current counts.
      *
@@ -30,12 +36,22 @@ public class DataQualityService {
      */
     @Transactional(readOnly = true)
     public DataQualityReport getDataQualityReport() {
+        // Count insurance records with verification issues (INCOMPLETE + STALE)
+        long incompleteInsurance = insuranceRepository
+            .findByVerificationStatusAndIsActiveTrue(InsuranceVerificationStatus.INCOMPLETE, Pageable.unpaged())
+            .getTotalElements();
+        long staleInsurance = insuranceRepository
+            .findByVerificationStatusAndIsActiveTrue(InsuranceVerificationStatus.STALE, Pageable.unpaged())
+            .getTotalElements();
+        long verificationIssues = incompleteInsurance + staleInsurance;
+
         return DataQualityReport.builder()
             .totalActivePatients(dataQualityRepository.countTotalActive())
             .incompleteRegistrations(dataQualityRepository.countIncompleteRegistrations())
             .missingInsurance(dataQualityRepository.countMissingInsurance())
             .missingPhoto(dataQualityRepository.countMissingPhotos())
             .unverifiedPhotoIds(dataQualityRepository.countUnverifiedPhotoIds())
+            .insuranceVerificationIssues(verificationIssues)
             .generatedAt(Instant.now())
             .build();
     }

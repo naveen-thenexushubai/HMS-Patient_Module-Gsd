@@ -69,6 +69,28 @@ public class JwtTokenProvider {
     }
 
     /**
+     * Generate JWT token for patient portal authentication.
+     * Subject is the patient's email. Includes ROLE_PATIENT and patientBusinessId claim.
+     *
+     * @param patientBusinessId patient's stable UUID (stored as claim for authorization checks)
+     * @param email patient's portal email (used as JWT subject)
+     * @return signed JWT token string
+     */
+    public String generatePatientToken(String patientBusinessId, String email) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expiration);
+
+        return Jwts.builder()
+            .subject(email)
+            .claim("roles", "ROLE_PATIENT")
+            .claim("patientBusinessId", patientBusinessId)
+            .issuedAt(now)
+            .expiration(expiryDate)
+            .signWith(secretKey, Jwts.SIG.HS512)
+            .compact();
+    }
+
+    /**
      * Validate JWT token.
      *
      * @param token the JWT token to validate

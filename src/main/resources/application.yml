@@ -92,6 +92,7 @@ management:
 app:
   storage:
     photos-dir: ${PHOTOS_DIR:/var/hospital/patient-photos}
+    consents-dir: ${CONSENTS_DIR:/var/hospital/patient-consents}
   smart-form:
     insurance-plans:
       - "Blue Cross Blue Shield"

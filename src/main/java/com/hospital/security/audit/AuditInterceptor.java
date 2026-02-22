@@ -11,10 +11,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.springframework.http.ResponseEntity;
+
 import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Spring AOP interceptor for audit logging.
@@ -50,11 +54,6 @@ public class AuditInterceptor {
 
         // Extract resource ID from method arguments or return value
         String resourceId = extractResourceId(joinPoint, result);
-        if (resourceId == null) {
-            log.warn("Cannot log audit event - no resource ID found for method: {}",
-                    joinPoint.getSignature().getName());
-            return;
-        }
 
         // Build audit log entry
         AuditLog auditLog = AuditLog.builder()
@@ -99,34 +98,58 @@ public class AuditInterceptor {
 
     /**
      * Extract resource ID from method arguments or return value.
-     * Tries method arguments first (Long/String), then tries getId() on result.
+     *
+     * Resolution order:
+     * 1. First UUID arg (patient businessId — most meaningful for HIPAA audit)
+     * 2. First Long arg (sub-resource IDs: contactId, insuranceId, etc.)
+     * 3. First non-null String arg (search query, username, etc.)
+     * 4. Unwrap ResponseEntity body, then try getBusinessId / getPatientId / getId
+     * 5. Fallback to method name — ensures every authenticated access is always logged
      *
      * @param joinPoint the join point
      * @param result the method return value
-     * @return the resource ID, or null if not found
+     * @return the resource ID, never null
      */
     private String extractResourceId(JoinPoint joinPoint, Object result) {
-        // Try to find ID in method arguments (first Long or String)
         Object[] args = joinPoint.getArgs();
+
+        // 1. UUID first — patient businessId is the canonical HIPAA audit identifier
         for (Object arg : args) {
-            if (arg instanceof Long || arg instanceof String) {
+            if (arg instanceof UUID) {
                 return arg.toString();
             }
         }
 
-        // Try to extract ID from result using reflection (getId() pattern)
-        if (result != null) {
-            try {
-                Method getId = result.getClass().getMethod("getId");
-                Object id = getId.invoke(result);
-                return id != null ? id.toString() : null;
-            } catch (Exception e) {
-                // No getId method or invocation failed
-                log.trace("Could not extract ID from result: {}", e.getMessage());
+        // 2. Long — sub-resource IDs (contactId, photoId, etc.)
+        for (Object arg : args) {
+            if (arg instanceof Long) {
+                return arg.toString();
             }
         }
 
-        return null;
+        // 3. Non-null String — search queries, usernames, etc.
+        for (Object arg : args) {
+            if (arg instanceof String) {
+                return (String) arg;
+            }
+        }
+
+        // 4. Unwrap ResponseEntity, then try common ID getter names
+        Object body = result;
+        if (result instanceof ResponseEntity) {
+            body = ((ResponseEntity<?>) result).getBody();
+        }
+        if (body != null) {
+            for (String getter : List.of("getBusinessId", "getPatientId", "getId")) {
+                try {
+                    Object id = body.getClass().getMethod(getter).invoke(body);
+                    if (id != null) return id.toString();
+                } catch (Exception ignored) {}
+            }
+        }
+
+        // 5. Fallback — method name ensures the log entry is always written
+        return joinPoint.getSignature().getName();
     }
 
     /**

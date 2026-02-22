@@ -58,6 +58,14 @@ public class Insurance {
     @Builder.Default
     private Boolean isActive = true;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "verification_status", nullable = false, length = 20)
+    @Builder.Default
+    private InsuranceVerificationStatus verificationStatus = InsuranceVerificationStatus.PENDING;
+
+    @Column(name = "last_verified_at")
+    private Instant lastVerifiedAt;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;

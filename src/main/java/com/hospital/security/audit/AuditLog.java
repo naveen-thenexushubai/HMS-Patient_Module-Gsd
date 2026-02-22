@@ -11,10 +11,13 @@ import java.util.Map;
 
 /**
  * Audit log entity for HIPAA-compliant tracking of all PHI access.
- * Immutable after creation - no setters provided.
+ * Immutable after creation — no setters, and @Immutable prevents Hibernate UPDATE.
+ * The JSONB details column can cause dirty-check false positives; @Immutable prevents the
+ * resulting UPDATE from hitting PostgreSQL's immutability trigger.
  */
 @Entity
 @Table(name = "audit_logs")
+@org.hibernate.annotations.Immutable
 @Getter
 @Builder
 @NoArgsConstructor

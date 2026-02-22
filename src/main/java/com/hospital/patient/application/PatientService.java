@@ -33,6 +33,12 @@ public class PatientService {
     @Autowired
     private InsuranceService insuranceService;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @Autowired
+    private ConsentService consentService;
+
     public DuplicateDetectionService.DuplicateCheckResult checkForDuplicates(RegisterPatientRequest request) {
         return duplicateDetectionService.checkForDuplicates(
             request.getFirstName(), request.getLastName(), request.getDateOfBirth(),
@@ -111,8 +117,12 @@ public class PatientService {
         PatientStatus status,
         Gender gender,
         String bloodGroup,
+        boolean phonetic,
         org.springframework.data.domain.Pageable pageable
     ) {
+        if (phonetic && query != null && !query.isBlank()) {
+            return patientSearchRepository.phoneticSearch(query, status, gender, bloodGroup, pageable);
+        }
         return patientSearchRepository.searchPatients(query, status, gender, bloodGroup, pageable);
     }
 
@@ -127,7 +137,10 @@ public class PatientService {
         MedicalHistory history = medicalHistoryRepository
             .findLatestByPatientBusinessId(businessId).orElse(null);
 
-        return toDetailResponse(patient, contacts, history);
+        List<AppointmentSummaryDto> upcoming = appointmentService.getUpcomingAppointments(businessId);
+        List<ConsentAlertDto> alerts = consentService.getConsentAlerts(businessId);
+
+        return toDetailResponse(patient, contacts, history, upcoming, alerts);
     }
 
     /**
@@ -242,6 +255,42 @@ public class PatientService {
         return toDetailResponse(saved);
     }
 
+    /**
+     * Returns all event-sourced version rows for a patient, ordered by version descending.
+     * The event-sourced INSERT pattern means each update/status-change produced a new row;
+     * this endpoint exposes that full history.
+     */
+    @Transactional(readOnly = true)
+    public List<PatientVersionResponse> getPatientHistory(UUID businessId) {
+        List<Patient> versions = patientRepository.findAllVersionsByBusinessId(businessId);
+        if (versions.isEmpty()) {
+            throw new PatientNotFoundException(businessId.toString());
+        }
+        return versions.stream().map(this::toVersionResponse).toList();
+    }
+
+    private PatientVersionResponse toVersionResponse(Patient p) {
+        return PatientVersionResponse.builder()
+            .patientId(p.getPatientId())
+            .businessId(p.getBusinessId())
+            .version(p.getVersion())
+            .firstName(p.getFirstName())
+            .lastName(p.getLastName())
+            .dateOfBirth(p.getDateOfBirth())
+            .gender(p.getGender())
+            .phoneNumber(p.getPhoneNumber())
+            .email(p.getEmail())
+            .addressLine1(p.getAddressLine1())
+            .city(p.getCity())
+            .state(p.getState())
+            .zipCode(p.getZipCode())
+            .status(p.getStatus())
+            .isRegistrationComplete(p.getIsRegistrationComplete())
+            .recordedAt(p.getCreatedAt())
+            .recordedBy(p.getCreatedBy())
+            .build();
+    }
+
     // Private overload for update/status responses (contacts/history not changed by these ops)
     private PatientDetailResponse toDetailResponse(Patient latestVersion) {
         List<EmergencyContact> contacts = emergencyContactRepository
@@ -252,6 +301,12 @@ public class PatientService {
     }
 
     private PatientDetailResponse toDetailResponse(Patient patient, List<EmergencyContact> contacts, MedicalHistory history) {
+        return toDetailResponse(patient, contacts, history, null, null);
+    }
+
+    private PatientDetailResponse toDetailResponse(Patient patient, List<EmergencyContact> contacts, MedicalHistory history,
+                                                    List<AppointmentSummaryDto> upcomingAppointments,
+                                                    List<ConsentAlertDto> consentAlerts) {
         // Fetch version-1 row to get original registeredAt and registeredBy
         // For version-1 patients this will be the same as patient; for updated patients it will differ
         Patient originalVersion = patientRepository.findFirstVersionByBusinessId(patient.getBusinessId())
@@ -307,6 +362,8 @@ public class PatientService {
             .lastModifiedBy(patient.getCreatedBy())          // FROM LATEST VERSION
             .version(patient.getVersion())
             .isRegistrationComplete(patient.getIsRegistrationComplete())
+            .upcomingAppointments(upcomingAppointments)
+            .consentAlerts(consentAlerts)
             .build();
     }
 }

@@ -96,4 +96,11 @@ public interface PatientRepository extends JpaRepository<Patient, String> {
         LIMIT 1
         """, nativeQuery = true)
     Optional<Patient> findFirstVersionByBusinessId(@Param("businessId") UUID businessId);
+
+    /**
+     * Find any version of patients by a list of business IDs.
+     * Used for batch-loading patient info during insurance verification report.
+     * The caller is responsible for deduplicating by version if needed.
+     */
+    List<Patient> findAllByBusinessIdIn(List<UUID> businessIds);
 }

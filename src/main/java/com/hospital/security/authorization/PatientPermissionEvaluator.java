@@ -4,6 +4,7 @@ import com.hospital.patient.infrastructure.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
+import com.hospital.security.jwt.PatientAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -112,6 +113,18 @@ public class PatientPermissionEvaluator implements PermissionEvaluator {
         //       patientRepository.isInNurseCareTeam(targetId, authentication.getName());
         if (hasRole(authentication, "NURSE")) {
             return "read".equals(permissionString);
+        }
+
+        // PATIENT role — read-only access to their own record only
+        if (hasRole(authentication, "PATIENT")) {
+            if (!"read".equals(permissionString)) {
+                return false;
+            }
+            if (authentication.getDetails() instanceof PatientAuthenticationDetails patientDetails) {
+                String tokenPatientId = patientDetails.getPatientBusinessId();
+                return tokenPatientId != null && tokenPatientId.equals(targetId.toString());
+            }
+            return false;
         }
 
         // Default deny — unknown roles have no access

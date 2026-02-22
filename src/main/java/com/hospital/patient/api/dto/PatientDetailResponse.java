@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+// Enriched with appointment and consent summary fields (Phase 5)
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -41,4 +43,6 @@ public class PatientDetailResponse {
     private String lastModifiedBy;
     private Long version;
     private Boolean isRegistrationComplete;
+    private List<AppointmentSummaryDto> upcomingAppointments;
+    private List<ConsentAlertDto> consentAlerts;
 }

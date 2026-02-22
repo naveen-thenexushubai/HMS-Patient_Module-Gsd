@@ -55,7 +55,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Create authentication token
                 UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(username, null, authorities);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                // For patient portal tokens, attach PatientAuthenticationDetails with patientBusinessId
+                String patientBusinessId = claims.get("patientBusinessId", String.class);
+                if (patientBusinessId != null) {
+                    authentication.setDetails(new PatientAuthenticationDetails(request, patientBusinessId));
+                } else {
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                }
 
                 // Set authentication in security context
                 SecurityContextHolder.getContext().setAuthentication(authentication);
